@@ -7,7 +7,15 @@ import io
 base class for scraping
 '''
 class scraper_base:
-
+    def __init__(self,site,artist,song):
+        self.site = site
+        self.artist = self.remove_unwanted_chars(artist)
+        self.song = self.remove_unwanted_chars(song)
+    
+    def log_msg(self,msg):
+        msg = "%s:site:[%s]artist:[%s]song:[%s]" % (msg,self.site,self.artist,self.song)
+        return msg
+            
     '''
     retreive texts under node of beautifulsoup
     buf    StringIO:buffer to output text

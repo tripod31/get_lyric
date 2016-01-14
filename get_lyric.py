@@ -18,13 +18,12 @@ if __name__ == '__main__':
     logging.info("argument:artist[%s]song[%s]" % (args.artist,args.song))
     scrapers = [www_lyrics_az(args.artist,args.song)] 
     
-    lyric=""
-    
     for scraper in scrapers:
         try:
-            lyric=scraper.get_lyric()
+            ret=scraper.get_lyric()
         except Exception as e:
             logging.error(scraper.log_msg("error:[%s]" % e))
-        if len(lyric)>0:
-            print(lyric,end="")
+            break
+        if ret == True:
+            print(scraper.lyric,end="")
             break
