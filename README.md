@@ -8,7 +8,7 @@ python3.5
 ## required libraries
 RoboBrowser  
 
-## parameters
+## Usage
 >python get_lyric.py --artist "artist name" --song "song name"
 
 When the lyric is found,the script put lyric to standard output.  
