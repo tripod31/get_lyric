@@ -27,7 +27,7 @@ class scraper_base:
             for e in node.contents:
                 self.get_text(e,buf)
         if isinstance(node,element.NavigableString):
-            t = re.sub(r'[\n\xa0]','',node.string)
+            t = re.sub(r'[\r\n\xa0]','',node.string)
             buf.write(t)
             
     def remove_unwanted_chars(self,s):
