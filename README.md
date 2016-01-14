@@ -9,5 +9,5 @@ python3.5
 BeautifulSoup  
 RoboBrowser  
 
-## arguments
+## parameters
 >python get_lyric.py --artist "artist name" --song "song name"
