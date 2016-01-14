@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+'''
+Search lyric from the site,and put it to standard output.
+'''
+
 import argparse
 import logging
 from get_lyric.www_lyrics_az import www_lyrics_az
