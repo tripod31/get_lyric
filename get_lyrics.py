@@ -13,7 +13,6 @@ from get_lyric.j_lyric_net import j_lyric_net
 import io,os
 import stagger
 import re
-from email.policy import default
 
 args = None
 
