@@ -30,12 +30,11 @@ def find_all_files(directory):
 
 def get_lyric(artist,song,buf):
     if is_all_ascii(artist) and is_all_ascii(song):
-        classes = [www_lyrics_az]
+        scrapers = [www_lyrics_az(artist,song)]
     else:
-        classes = [j_lyric_net]
+        scrapers = [j_lyric_net(artist,song)]
         
-    for cls in classes:
-        scraper = cls(artist,song)
+    for scraper in scrapers:
         try:
             ret=scraper.get_lyric()
         except Exception as e:
