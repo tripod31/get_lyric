@@ -6,8 +6,6 @@ import logging
 from get_lyric.www_lyrics_az import www_lyrics_az
 
 if __name__ == '__main__':
-    
-    #引数
     parser = argparse.ArgumentParser()
     parser.add_argument('--artist')
     parser.add_argument('--song')
