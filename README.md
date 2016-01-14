@@ -22,5 +22,5 @@ The script put some debug information to "get_lyric.log",in current directory.
 
 When the lyric of mp3 in "mp3_files_dir" is found,the script puts lyric to file in "output_dir".  
 The format of filename "artist - song.txt".  
-These file is useful for foo_uie_lyrics3.They can be used by "local File Search" source.
+These file is useful for foo_uie_lyrics3.They can be used by "local File Search" source.  
 The script put some debug information to "get_lyrics.log",in current directory.
