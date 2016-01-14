@@ -1,6 +1,5 @@
 # get_lyric
-Command line tool to retrive lyric.  
-Currentry it search lyric in "www.lyrics.az".  
+Command line tool to retrive lyric from sites.  
 
 ## development environment
 python3.5  
