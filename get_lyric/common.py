@@ -12,7 +12,7 @@ def write2tag(tag,lyric):
         if len(tag.getall('SYLT'))>0:
             tag.delall('SYLT')
         tag.add(
-            SYLT(encoding=3,lang=u'eng',
+            SYLT(encoding=3,lang=u'eng',desc=u'desc', 
                 format=2,    #time foｒmat=mill seconds
                 type=1,      #type=lyric
                 text=arr    #[(text of lyric,start_time)]
