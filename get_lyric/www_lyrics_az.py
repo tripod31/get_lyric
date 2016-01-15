@@ -57,7 +57,8 @@ class www_lyrics_az(scraper_base):
         buf = io.StringIO()
         self.get_text(node,buf)
         lyric = buf.getvalue()
-        if lyric.startswith("We haven't lyrics of this song."):
+        if "We haven't lyrics of this song." in lyric or \
+            "At the moment nobody has submitted lyrics for this song to our archive." in lyric:
             logging.warn(self.log_msg("lyric not found."))
             return False
         
