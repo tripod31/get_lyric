@@ -17,9 +17,15 @@ The script put some debug information to "get_lyric.log",in current directory.
 
 ## get_lyrics.py
 #### usage
->python grt_lyrics.py --in_dir "mp3_files_dir" --out_dir "output_dir"
+>python grt_lyrics.py --in_dir "mp3_files_dir" [--out_dir "output_dir"] [--write2tag]
 
-When the lyric of mp3 in "mp3_files_dir" is found,the script puts lyric to file in "output_dir".  
-The format of filename "artist - song.txt".  
+output_dir:  
+The script puts lyric to file in "output_dir".  
+The format of filename is "artist - song.txt".  
 These file is useful for foo_uie_lyrics3(foobar2000 plugin to display lyric).They can be used by "local File Search" source.  
+write2tag:  
+The script puts lyric to tag of mp3.
+Writing synced lyrics to tag is not implemeted yet.
+When writeing to file,output filename is "artist - song.txt".
+
 The script put some debug information to "get_lyrics.log",in current directory.

@@ -1,7 +1,25 @@
 # -*- coding: utf-8 -*-
 from bs4 import element
 import re
-import io
+import io,os
+
+def is_all_ascii(s):
+    re1 = re.compile(r'^[\x20-\x7E]+$')
+    if re1.search(s) is None:
+        return False
+    else:
+        return True
+    
+def is_lyric_sync(s):
+    if re.search('\[[0-9\:\.\]+]',s):
+        return True
+    else:
+        return False
+
+def find_all_files(directory):
+    for root, dirs, files in os.walk(directory):
+        for file in files:
+            yield os.path.join(root, file)
 
 '''
 base class for scraping

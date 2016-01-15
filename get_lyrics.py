@@ -2,37 +2,31 @@
 # -*- coding: utf-8 -*-
 
 '''
-For mp3 files in specified directory,Search lyric from the site,and put it to file.
-output filename is "artist - song.txt".
+#### usage
+>python grt_lyrics.py --in_dir "mp3_files_dir" [--out_dir "output_dir"] [--write2tag]
+
+output_dir:  
+The script puts lyric to file in "output_dir".  
+The format of filename is "artist - song.txt".  
+These file is useful for foo_uie_lyrics3(foobar2000 plugin to display lyric).They can be used by "local File Search" source.  
+write2tag:  
+The script puts lyric to tag of mp3.
+Writing synced lyrics to tag is not implemeted yet.
+When writeing to file,output filename is "artist - song.txt".
+
 '''
 
 import argparse
 import logging
-from get_lyric.www_lyrics_az import www_lyrics_az
-from get_lyric.j_lyric_net import j_lyric_net
 import io,os
 import re
-from mutagen.id3 import ID3, TIT2
- 
+from mutagen.id3 import ID3, SYLT,USLT
+
+from get_lyric.common import is_all_ascii,is_lyric_sync,find_all_files
+from get_lyric.www_lyrics_az import www_lyrics_az
+from get_lyric.j_lyric_net import j_lyric_net
+
 args = None
-
-def is_lyric_sync(s):
-    if re.search('\[[0-9\:\.\]',s):
-        return True
-    else:
-        return False
-
-def is_all_ascii(s):
-    re1 = re.compile(r'^[\x20-\x7E]+$')
-    if re1.search(s) is None:
-        return False
-    else:
-        return True
-        
-def find_all_files(directory):
-    for root, dirs, files in os.walk(directory):
-        for file in files:
-            yield os.path.join(root, file)
 
 def get_lyric(artist,song,buf):
     if is_all_ascii(artist) and is_all_ascii(song):
@@ -51,12 +45,30 @@ def get_lyric(artist,song,buf):
             return True
     return False
 
+def write2tag(tag,lyric):
+    if is_lyric_sync(lyric):
+        logging.info("witing synced lyric is'nt implemented yet.skip writing tag")
+        """
+        if len(tag.getall('SYLT'))>0:
+            tag.delall('SYLT')
+        tag.add(SYLT(encoding=3,lang=u'eng',format=2,type=1,text=lyric))
+        """
+    else:
+        if len(tag.getall('USLT'))>0:
+            tag.delall('USLT')        
+        tag.add(USLT(encoding=3, lang=u'eng', desc=u'desc', text=lyric))
+        tag.save()
+
 def process_mp3(file):
     print(file+":",end="")
-    tag=ID3(file)
-    artist = str(tag['TPE1'])
-    song =  str(tag['TIT2'])
-    buf = io.StringIO()        
+    try:
+        tag=ID3(file)
+        artist = str(tag['TPE1'])
+        song =  str(tag['TIT2'])
+    except Exception as e:
+        logging.error("error reading mp3.:"+e)
+    
+    buf = io.StringIO() 
     ret = get_lyric(artist, song, buf)
     if ret == False:
         print("not found")
@@ -64,11 +76,11 @@ def process_mp3(file):
     else:
         print("found")
     lyric = buf.getvalue()
-    '''
+    
     if args.write2tag:
-        pass
-    '''    
-    if "out_dir" in vars(args):
+        write2tag(tag,lyric)
+        
+    if args.out_dir is not None:
         write2file(artist, song, lyric)
 
 def write2file(artist,song,lyric):
@@ -86,14 +98,15 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--in_dir')
     parser.add_argument('--out_dir')
-    #parser.add_argument('--write2tag'   ,action='store_true')
+    parser.add_argument('--write2tag'   ,action='store_true')
     
     args=parser.parse_args()
     logging.basicConfig(level=logging.INFO,
                         stream = open("get_lyrics.log",mode="w",encoding="utf-8"))
 
-    if not os.path.exists(args.out_dir):
-        os.makedirs(args.out_dir)
+    if args.out_dir is not None:
+        if not os.path.exists(args.out_dir):
+            os.makedirs(args.out_dir)
     
     files = find_all_files(args.in_dir)
     for file in files:
