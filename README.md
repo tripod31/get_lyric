@@ -24,7 +24,6 @@ The script puts lyric to file in "output_dir".
 The format of filename is "artist - song.txt".  
 These file is useful for foo_uie_lyrics3(foobar2000 plugin to display lyric).They can be used by "local File Search" source.  
 write2tag:  
-The script puts lyric to tag of mp3.
-Writing synced lyrics to tag is not implemeted yet.  
+The script puts lyric to unsynced lyrics tag of mp3.
 
 The script put some debug information to "get_lyrics.log",in current directory.  

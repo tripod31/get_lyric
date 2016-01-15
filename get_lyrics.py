@@ -10,15 +10,12 @@ The script puts lyric to file in "output_dir".
 The format of filename is "artist - song.txt".  
 These file is useful for foo_uie_lyrics3(foobar2000 plugin to display lyric).They can be used by "local File Search" source.  
 write2tag:  
-The script puts lyric to tag of mp3.
-Writing synced lyrics to tag is not implemeted yet.
-
+The script puts lyric to unsynced lyrics tag of mp3.
 '''
 
 import argparse
 import logging
 import io,os
-import re
 from mutagen.id3 import ID3, SYLT,USLT
 
 from get_lyric.common import is_all_ascii,is_lyric_sync,find_all_files
@@ -45,18 +42,23 @@ def get_lyric(artist,song,buf):
     return False
 
 def write2tag(tag,lyric):
+    """
     if is_lyric_sync(lyric):
         logging.info("witing synced lyric is'nt implemented yet.skip writing tag")
-        """
         if len(tag.getall('SYLT'))>0:
             tag.delall('SYLT')
-        tag.add(SYLT(encoding=3,lang=u'eng',format=2,type=1,text=lyric))
-        """
-    else:
-        if len(tag.getall('USLT'))>0:
-            tag.delall('USLT')        
-        tag.add(USLT(encoding=3, lang=u'eng', desc=u'desc', text=lyric))
-        tag.save()
+        tag.add(
+            SYLT(encoding=3,lang=u'eng',
+                format=2,    #time foｒmat:mill seconds
+                type=1,      #lyric
+                text=[(lyric,100)]    #[(text of lyric,start_time)]
+                )
+            )
+    """
+    if len(tag.getall('USLT'))>0:
+        tag.delall('USLT')        
+    tag.add(USLT(encoding=3, lang=u'eng', desc=u'desc', text=lyric))
+    tag.save()
 
 def process_mp3(file):
     print(file+":",end="")
@@ -65,7 +67,10 @@ def process_mp3(file):
         artist = str(tag['TPE1'])
         song =  str(tag['TIT2'])
     except Exception as e:
-        logging.error("error reading mp3.:"+e)
+        msg = "error reading mp3.:"+e
+        print(msg)
+        logging.error(msg)
+        return
     
     buf = io.StringIO() 
     ret = get_lyric(artist, song, buf)
@@ -112,3 +117,4 @@ if __name__ == '__main__':
         if file.endswith(".mp3"):
             process_mp3(file)
     print("finished")
+    
