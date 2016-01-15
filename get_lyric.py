@@ -8,8 +8,11 @@ Search lyric from the site,and put it to standard output.
 import argparse
 import logging
 from get_lyric.www_lyrics_az import www_lyrics_az
+import io,sys
 
 if __name__ == '__main__':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')  #for unicodeerror
+    
     parser = argparse.ArgumentParser()
     parser.add_argument('--artist')
     parser.add_argument('--song')
