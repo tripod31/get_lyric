@@ -25,7 +25,6 @@ The format of filename is "artist - song.txt".
 These file is useful for foo_uie_lyrics3(foobar2000 plugin to display lyric).They can be used by "local File Search" source.  
 write2tag:  
 The script puts lyric to tag of mp3.
-Writing synced lyrics to tag is not implemeted yet.
-When writeing to file,output filename is "artist - song.txt".
+Writing synced lyrics to tag is not implemeted yet.  
 
-The script put some debug information to "get_lyrics.log",in current directory.
+The script put some debug information to "get_lyrics.log",in current directory.  

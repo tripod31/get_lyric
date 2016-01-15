@@ -12,7 +12,6 @@ These file is useful for foo_uie_lyrics3(foobar2000 plugin to display lyric).The
 write2tag:  
 The script puts lyric to tag of mp3.
 Writing synced lyrics to tag is not implemeted yet.
-When writeing to file,output filename is "artist - song.txt".
 
 '''
 
