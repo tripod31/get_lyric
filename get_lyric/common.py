@@ -9,12 +9,7 @@ def is_all_ascii(s):
         return False
     else:
         return True
-    
-def is_lyric_sync(s):
-    if re.search('\[[0-9\:\.\]+]',s):
-        return True
-    else:
-        return False
+
 
 def find_all_files(directory):
     for root, dirs, files in os.walk(directory):

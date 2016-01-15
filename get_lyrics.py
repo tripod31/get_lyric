@@ -10,17 +10,22 @@ The script puts lyric to file in "output_dir".
 The format of filename is "artist - song.txt".  
 These file is useful for foo_uie_lyrics3(foobar2000 plugin to display lyric).They can be used by "local File Search" source.  
 write2tag:  
-The script puts lyric to unsynced lyrics tag of mp3.
+The script puts lyric to lyrics tag of mp3.
+If lyric contains text like
+[00:00.00]lyric text
+,lyric is saved to synced lyrics tag.Otherwise it is saved to unsynced lyrics tag.
 '''
 
 import argparse
 import logging
-import io,os
+import io,os,re
+
 from mutagen.id3 import ID3, SYLT,USLT
 
-from get_lyric.common import is_all_ascii,is_lyric_sync,find_all_files
+from get_lyric.common import is_all_ascii,find_all_files
 from get_lyric.www_lyrics_az import www_lyrics_az
 from get_lyric.j_lyric_net import j_lyric_net
+from _ctypes import Array
 
 args = None
 
@@ -41,23 +46,34 @@ def get_lyric(artist,song,buf):
             return True
     return False
 
+def parse_synced_lyric(s):
+    lines=s.split('\n')
+    arr = []
+    for line in lines:
+        m= re.match('\[(\d2)\:(\d2)\.(\d2)\]([^\[\]]+)',line)
+        if m:
+            time = int(m.group(1))*60*1000 + int(m.group(1))*1000 + int(m.group(3))+100 #mill second
+            arr.append((m.group(4),time))
+    return arr
+
 def write2tag(tag,lyric):
-    """
-    if is_lyric_sync(lyric):
-        logging.info("witing synced lyric is'nt implemented yet.skip writing tag")
+    arr = parse_synced_lyric(lyric)
+    if len(arr)>0:
+        #synced lyric
         if len(tag.getall('SYLT'))>0:
             tag.delall('SYLT')
         tag.add(
             SYLT(encoding=3,lang=u'eng',
-                format=2,    #time foｒmat:mill seconds
-                type=1,      #lyric
-                text=[(lyric,100)]    #[(text of lyric,start_time)]
-                )
+                format=2,    #time foｒmat=mill seconds
+                type=1,      #type=lyric
+                text=arr    #[(text of lyric,start_time)]
             )
-    """
-    if len(tag.getall('USLT'))>0:
-        tag.delall('USLT')        
-    tag.add(USLT(encoding=3, lang=u'eng', desc=u'desc', text=lyric))
+        )
+    else:
+        #unsynced lyric
+        if len(tag.getall('USLT'))>0:
+            tag.delall('USLT')        
+        tag.add(USLT(encoding=3, lang=u'eng', desc=u'desc', text=lyric))
     tag.save()
 
 def process_mp3(file):
