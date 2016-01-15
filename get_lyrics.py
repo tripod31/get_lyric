@@ -11,10 +11,16 @@ import logging
 from get_lyric.www_lyrics_az import www_lyrics_az
 from get_lyric.j_lyric_net import j_lyric_net
 import io,os
-import stagger
 import re
-
+from mutagen.id3 import ID3, TIT2
+ 
 args = None
+
+def is_lyric_sync(s):
+    if re.search('\[[0-9\:\.\]',s):
+        return True
+    else:
+        return False
 
 def is_all_ascii(s):
     re1 = re.compile(r'^[\x20-\x7E]+$')
@@ -47,9 +53,9 @@ def get_lyric(artist,song,buf):
 
 def process_mp3(file):
     print(file+":",end="")
-    tag=stagger.read_tag(file)
-    artist = tag.artist
-    song =  tag.title
+    tag=ID3(file)
+    artist = str(tag['TPE1'])
+    song =  str(tag['TIT2'])
     buf = io.StringIO()        
     ret = get_lyric(artist, song, buf)
     if ret == False:
