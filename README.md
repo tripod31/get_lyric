@@ -28,6 +28,8 @@ The script puts lyric to unsynced lyrics tag of mp3.
 If lyric contains text like  
 >[00:00.00]lyric text  
 
-,lyric is saved to synced lyrics tag.Otherwise it is saved to unsynced lyrics tag.  
+,lyric is saved to synced lyrics tag.Otherwise it is saved to unsynced lyrics tag. 
 
 The script put some debug information to "get_lyrics.log",in current directory.  
+####known problem
+Currentry, synced lyrics is'nt displayed in foobar2000.

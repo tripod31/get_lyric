@@ -2,7 +2,34 @@
 from bs4 import element
 import re
 import io,os
+from mutagen.id3 import ID3, SYLT,USLT
+import logging
 
+def write2tag(tag,lyric):
+    arr = parse_synced_lyric(lyric)
+    if len(arr)>0:
+        #synced lyric
+        if len(tag.getall('SYLT'))>0:
+            tag.delall('SYLT')
+        tag.add(
+            SYLT(encoding=3,lang=u'eng',
+                format=2,    #time foｒmat=mill seconds
+                type=1,      #type=lyric
+                text=arr    #[(text of lyric,start_time)]
+            )
+        )
+    else:
+        #unsynced lyric
+        if len(tag.getall('USLT'))>0:
+            tag.delall('USLT')        
+        tag.add(USLT(encoding=3, lang=u'eng', desc=u'desc', text=lyric))
+    try:
+        tag.save()
+    except Exception as e:
+        msg = "error at saving mp3.:"+str(e)
+        print(msg)
+        logging.error(msg)
+        
 def is_all_ascii(s):
     re1 = re.compile(r'^[\x20-\x7E]+$')
     if re1.search(s) is None:
@@ -14,6 +41,16 @@ def find_all_files(directory):
     for root, dirs, files in os.walk(directory):
         for file in files:
             yield os.path.join(root, file)
+
+def parse_synced_lyric(s):
+    lines=s.split('\n')
+    arr = []
+    for line in lines:
+        m= re.search('\[(\d{2})\:(\d{2})\.(\d{2})\]([^\[\]]+)',line)
+        if m:
+            time = int(m.group(1))*60*1000 + int(m.group(1))*1000 + int(m.group(3))*100 #mill second
+            arr.append((m.group(4),time))
+    return arr
 
 '''
 base class for scraping
