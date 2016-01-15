@@ -5,8 +5,8 @@ Command line tool to retrive lyric from sites.
 python3.5  
 
 ## required libraries
-RoboBrowser  
-Stagger(for get_lyrics.py only)
+robobrowser  
+mutagen(for get_lyrics.py only)
 
 ## get_lyric.py
 #### usage
