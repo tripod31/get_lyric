@@ -10,7 +10,6 @@ def is_all_ascii(s):
     else:
         return True
 
-
 def find_all_files(directory):
     for root, dirs, files in os.walk(directory):
         for file in files:

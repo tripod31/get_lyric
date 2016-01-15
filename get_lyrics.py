@@ -74,7 +74,12 @@ def write2tag(tag,lyric):
         if len(tag.getall('USLT'))>0:
             tag.delall('USLT')        
         tag.add(USLT(encoding=3, lang=u'eng', desc=u'desc', text=lyric))
-    tag.save()
+    try:
+        tag.save()
+    except Exception as e:
+        msg = "error at saving mp3.:"+e
+        print(msg)
+        logging.error(msg)
 
 def process_mp3(file):
     print(file+":",end="")
