@@ -1,6 +1,6 @@
 # get_lyric
 Command line tool to retrive lyric from sites.  
-For mp3 files in specified directory,Search lyric from the site,and put it to file or tag of mp3.  
+For mp3 files in specified directory,it search lyric from the site,and put it to file or tag of mp3.  
 
 ## development environment
 python3.5  
@@ -30,7 +30,7 @@ The script puts lyric to unsynced lyrics tag of mp3.
 If lyric contains text like  
 >[00:00.00]lyric text  
 
-,lyric is saved to synced lyrics tag.Otherwise it is saved to unsynced lyrics tag. 
+,lyric is saved to synced lyrics tag.Otherwise it is saved to unsynced lyrics tag.  
 overwrite:  
 When specified,The script overwrites existing file or tag.  
 
