@@ -23,7 +23,7 @@ The script put some debug information to "get_lyric.log",in current directory.
 get_mp3_lyrics.py
 -----
 #### usage
-    python grt_lyrics.py --in_dir "mp3_files_dir" [--out_dir "output_dir"] [--write2tag] [--overwrite]
+    python grt_mp3_lyrics.py --in_dir "mp3_files_dir" [--out_dir "output_dir"] [--write2tag] [--overwrite]
 
 +    output_dir  
     The script puts lyric to file in "output_dir".  
