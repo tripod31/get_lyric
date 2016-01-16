@@ -5,6 +5,10 @@ import io,os
 from mutagen.id3 import USLT,TXXX
 import logging
 
+'''
+arguments:
+tag    object createed by 'ID3(file)'
+'''
 def write2tag(tag,lyric):
     arr = parse_synced_lyric(lyric)
     if len(arr)>0:

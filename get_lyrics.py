@@ -41,7 +41,7 @@ def process_mp3(file):
         tag=ID3(file)
         artist = str(tag['TPE1'])
         song =  str(tag['TIT2'])
-        if len(tag.getall('SYLT'))>0 or len(tag.getall('USLT'))>0:
+        if len(tag.getall('SYLT'))>0 or len(tag.getall('USLT'))>0 or len(tag.getall('TXXX:LIRICS'))>0:
             tag_exist = True
         else:
             tag_exist = False
