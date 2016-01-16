@@ -46,9 +46,10 @@ def parse_synced_lyric(s):
     lines=s.split('\n')
     arr = []
     for line in lines:
-        m= re.search('\[(\d{2})\:(\d{2})\.(\d{2})\]([^\[\]]+)',line)
+        m= re.match('\[(\d{2})\:(\d{2})\.(\d{2})\]([^\[\]]+)',line)
         if m:
-            time = int(m.group(1))*60*1000 + int(m.group(1))*1000 + int(m.group(3))*100 #mill second
+            min,sec,millsec = (m.group(1),m.group(2),m.group(3))
+            time = int(min)*60*100 + int(sec)*100 + int(millsec) #in mill second
             arr.append((m.group(4),time))
     return arr
 
