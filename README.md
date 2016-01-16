@@ -28,9 +28,9 @@ The script put some debug information to "get_lyric.log",in current directory.
 +    write2tag  
     The script puts lyric to unsynced lyrics tag of mp3.
     If lyric contains text like  
-    [00:00.00]lyric text  
+    >[00:00.00]lyric text  
 
-,lyric is saved to synced lyrics tag.Otherwise it is saved to unsynced lyrics tag.  
+    ,lyric is saved to synced lyrics tag.Otherwise it is saved to unsynced lyrics tag.  
 +    overwrite  
 When specified,The script overwrites existing file or tag.  
 
