@@ -1,5 +1,6 @@
 # get_lyric
 Command line tool to retrive lyric from sites.  
+For mp3 files in specified directory,Search lyric from the site,and put it to file or tag of mp3.  
 
 ## development environment
 python3.5  

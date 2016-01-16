@@ -2,18 +2,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-#### usage
->python grt_lyrics.py --in_dir "mp3_files_dir" [--out_dir "output_dir"] [--write2tag]
-
-output_dir:  
-The script puts lyric to file in "output_dir".  
-The format of filename is "artist - song.txt".  
-These file is useful for foo_uie_lyrics3(foobar2000 plugin to display lyric).They can be used by "local File Search" source.  
-write2tag:  
-The script puts lyric to lyrics tag of mp3.
-If lyric contains text like
-[00:00.00]lyric text
-,lyric is saved to synced lyrics tag.Otherwise it is saved to unsynced lyrics tag.
+For mp3 files in specified directory,Search lyric from the site,and put it to file or tag of mp3.
 '''
 
 import argparse
