@@ -2,13 +2,16 @@
 from bs4 import element
 import re
 import io,os
-from mutagen.id3 import ID3, SYLT,USLT
+from mutagen.id3 import ID3, SYLT,USLT,TXXX
 import logging
 
 def write2tag(tag,lyric):
     arr = parse_synced_lyric(lyric)
     if len(arr)>0:
         #synced lyric
+        """
+        'SYLT' is not displayed.
+        
         if len(tag.getall('SYLT'))>0:
             tag.delall('SYLT')
         tag.add(
@@ -18,11 +21,19 @@ def write2tag(tag,lyric):
                 text=arr    #[(text of lyric,start_time)]
             )
         )
+        """
+        if len(tag.getall('TXXX:LIRICS'))>0:
+            tag.delall('TXXX:LIRICS')
+        tag.add(
+            TXXX(encoding=3,desc='LYRICS', 
+                text=[lyric]
+            )
+        )        
     else:
         #unsynced lyric
         if len(tag.getall('USLT'))>0:
             tag.delall('USLT')        
-        tag.add(USLT(encoding=3, lang=u'eng', desc=u'desc', text=lyric))
+        tag.add(USLT(encoding=3, lang='eng', desc='desc', text=lyric))
     try:
         tag.save()
     except Exception as e:

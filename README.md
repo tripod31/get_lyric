@@ -31,5 +31,3 @@ If lyric contains text like
 ,lyric is saved to synced lyrics tag.Otherwise it is saved to unsynced lyrics tag. 
 
 The script put some debug information to "get_lyrics.log",in current directory.  
-####known problem
-Currentry, synced lyrics is'nt displayed in foobar2000.
