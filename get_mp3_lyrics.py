@@ -100,10 +100,10 @@ def write2file(path,lyric):
     
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--in_dir')
-    parser.add_argument('--out_dir')
-    parser.add_argument('--write2tag'   ,action='store_true')
-    parser.add_argument('--overwrite'   ,action='store_true')
+    parser.add_argument('--in_dir',     help="specify the directory in where mp3 files are")
+    parser.add_argument('--out_dir',    help="specify the directory where the script put lyric to file")
+    parser.add_argument('--write2tag'   ,action='store_true',   help="When specified,the script puts lyric to tag of mp3")
+    parser.add_argument('--overwrite'   ,action='store_true',   help="When specified,the script overwrites existing file or tag.")
     
     args=parser.parse_args()
     logging.basicConfig(level=logging.INFO,
