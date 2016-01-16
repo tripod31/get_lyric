@@ -18,11 +18,11 @@ If lyric contains text like
 
 import argparse
 import logging
-import io,os,re
+import io,os
 
-from mutagen.id3 import ID3, SYLT,USLT
+from mutagen.id3 import ID3
 
-from get_lyric.common import is_all_ascii,find_all_files,parse_synced_lyric,write2tag
+from get_lyric.common import is_all_ascii,find_all_files,write2tag
 from get_lyric.www_lyrics_az import www_lyrics_az
 from get_lyric.j_lyric_net import j_lyric_net
 

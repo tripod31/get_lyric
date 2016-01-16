@@ -2,7 +2,7 @@
 from bs4 import element
 import re
 import io,os
-from mutagen.id3 import ID3, SYLT,USLT,TXXX
+from mutagen.id3 import USLT,TXXX
 import logging
 
 def write2tag(tag,lyric):
