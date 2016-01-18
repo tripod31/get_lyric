@@ -85,14 +85,16 @@ class scraper_base:
     retreive texts under node of beautifulsoup
     buf    StringIO:buffer to output text
     '''
-    def get_text(self,node,buf):
+    def get_text(self,node,buf,remove_cr=True):
         if isinstance(node,element.Tag):
             if node.name == "br":
                 buf.write("\n")
             for e in node.contents:
-                self.get_text(e,buf)
+                self.get_text(e,buf,remove_cr)
         if isinstance(node,element.NavigableString):
-            t = re.sub(r'[\r\n\xa0]','',node.string)
+            t = node.string
+            if (remove_cr):
+                t = re.sub(r'[\r\n]','',t)
             buf.write(t)
             
     def remove_unwanted_chars(self,s):
@@ -101,8 +103,10 @@ class scraper_base:
         s=s.strip() #remove white character at head and tail
         return s
     
-    def test_tag(self,tag,name,p_text):
-        if tag.name !=name:
+    def test_link(self,tag,p_text):
+        if tag.name != 'a':
+            return False
+        if not 'href' in tag.attrs:
             return False
         buf = io.StringIO()
         self.get_text(tag, buf)

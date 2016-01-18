@@ -25,6 +25,9 @@ get_mp3_lyrics.py
 #### usage
     python grt_mp3_lyrics.py --in_dir "mp3_files_dir" [--out_dir "output_dir"] [--write2tag] [--overwrite]
 
++    in_dir  
+    directory where mp3 files are
+
 +    output_dir  
     The script puts lyric to file in "output_dir".  
     The format of filename is "artist - song.txt".  

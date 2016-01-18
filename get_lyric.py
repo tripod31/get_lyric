@@ -7,10 +7,15 @@ Search lyric from the site,and put it to standard output.
 
 import argparse
 import logging
+import sys,io
+
 from get_lyric.common import is_all_ascii
+
+
+# sites classes
 from get_lyric.www_lyrics_az import www_lyrics_az
 from get_lyric.j_lyric_net import j_lyric_net
-import io,sys
+from get_lyric.putitlyrics_com import putitlyrics_com
 
 if __name__ == '__main__':
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')  #for unicodeerror
@@ -27,13 +32,16 @@ if __name__ == '__main__':
         scrapers = [www_lyrics_az(args.artist,args.song)]
     else:
         scrapers = [j_lyric_net(args.artist,args.song)]
-    
+    scrapers = [putitlyrics_com(args.artist,args.song)]
+        
     for scraper in scrapers:
+        
         try:
             ret=scraper.get_lyric()
         except Exception as e:
             logging.error(scraper.log_msg("error:[%s]" % e))
             break
+
         if ret == True:
             print(scraper.lyric,end="")
             break

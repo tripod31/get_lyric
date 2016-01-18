@@ -12,8 +12,10 @@ import io,os
 from mutagen.id3 import ID3
 
 from get_lyric.common import is_all_ascii,find_all_files,write2tag
+# sites classes
 from get_lyric.www_lyrics_az import www_lyrics_az
 from get_lyric.j_lyric_net import j_lyric_net
+from get_lyric.putitlyrics_com import putitlyrics_com
 
 args = None
 
@@ -22,7 +24,8 @@ def get_lyric(artist,song,buf):
         scrapers = [www_lyrics_az(artist,song)]
     else:
         scrapers = [j_lyric_net(artist,song)]
-        
+    scrapers = [putitlyrics_com(artist,song)] 
+    
     for scraper in scrapers:
         try:
             ret=scraper.get_lyric()
@@ -100,7 +103,7 @@ def write2file(path,lyric):
     
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--in_dir',     help="specify the directory in where mp3 files are")
+    parser.add_argument('--in_dir',     help="specify the directory where mp3 files are")
     parser.add_argument('--out_dir',    help="specify the directory where the script put lyric to file")
     parser.add_argument('--write2tag'   ,action='store_true',   help="When specified,the script puts lyric to tag of mp3")
     parser.add_argument('--overwrite'   ,action='store_true',   help="When specified,the script overwrites existing file or tag.")

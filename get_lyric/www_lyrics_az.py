@@ -28,7 +28,7 @@ class www_lyrics_az(scraper_base):
         browser.submit_form(form)
         
         #click artist
-        node = browser.find(lambda tag:self.test_tag(tag,'a',self.artist))
+        node = browser.find(lambda tag:self.test_link(tag,self.artist))
         if node is None:
             logging.warn(self.log_msg("artist not found."))
             return False
@@ -42,7 +42,7 @@ class www_lyrics_az(scraper_base):
         browser.follow_link(node)
         
         #find song link
-        node = browser.find(lambda tag:self.test_tag(tag,'a',self.song))
+        node = browser.find(lambda tag:self.test_link(tag,self.song))
         if node is None:
             logging.warn(self.log_msg("song not found."))
             return False
