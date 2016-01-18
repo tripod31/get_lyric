@@ -7,7 +7,7 @@ from bs4 import element
 import re
 
 def choose_scrapers(args,artist,song):
-    scrapers = [www_lyrics_az,j_lyric_net,petitlyrics_com]
+    scrapers = [www_lyrics_az,j_lyric_net,petitlyrics_com,www_lyricsfreak_com]
     
     if not is_all_ascii(artist) or not is_all_ascii(song):
         scrapers = [s for s in scrapers if not s.ascii_only]
@@ -208,6 +208,52 @@ class j_lyric_net(scraper_base):
         
         #find lyric
         node = browser.find('p',id="lyricBody")
+        if node is None:
+            logging.info(self.log_msg("lyric not found."))
+            return False
+        
+        logging.info(self.log_msg("lyric *found*"))
+        buf = io.StringIO()
+        self.get_text(node,buf)
+        lyric = buf.getvalue()
+        
+        self.lyric=lyric
+        
+        return True
+
+class www_lyricsfreak_com(scraper_base):
+    ascii_only = True
+    site = 'http://www.lyricsfreak.com/'
+    
+    def __init__(self,artist,song):
+        super().__init__(artist,song)
+    
+    '''
+    return value:
+
+    True:success
+    Faluse:error
+    '''
+    def get_lyric(self):    
+        browser = RoboBrowser(parser="html.parser",history=True)
+        browser.open("http://www.lyricsfreak.com/search.php?a=search&type=band&q=%s" % self.artist)
+        
+        #find artist link
+        node = browser.find(lambda tag:self.test_link(tag,self.artist))
+        if node is None:
+            logging.info(self.log_msg("artist not found."))
+            return False
+        browser.follow_link(node)
+        
+        #find song link
+        node = browser.find(lambda tag:self.test_link(tag,self.song))
+        if node is None:
+            logging.info(self.log_msg("song not found."))
+            return False
+        browser.follow_link(node)       
+        
+        #find lyric
+        node = browser.find('div',id="content_h")
         if node is None:
             logging.info(self.log_msg("lyric not found."))
             return False
