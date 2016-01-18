@@ -21,11 +21,12 @@ args = None
 
 def get_lyric(artist,song,buf):
     if is_all_ascii(artist) and is_all_ascii(song):
-        scrapers = [www_lyrics_az(artist,song)]
+        scrapers = [www_lyrics_az(artist,song),putitlyrics_com(artist,song)]
     else:
-        scrapers = [j_lyric_net(artist,song)]
-    scrapers = [putitlyrics_com(artist,song)] 
-    
+        scrapers = [j_lyric_net(artist,song),putitlyrics_com(artist,song)]
+    if args.site is not None:
+        scrapers = filter(lambda s:args.site in s.site,scrapers)
+        
     for scraper in scrapers:
         try:
             ret=scraper.get_lyric()
@@ -105,8 +106,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--in_dir',     help="specify the directory where mp3 files are")
     parser.add_argument('--out_dir',    help="specify the directory where the script put lyric to file")
-    parser.add_argument('--write2tag'   ,action='store_true',   help="When specified,the script puts lyric to tag of mp3")
-    parser.add_argument('--overwrite'   ,action='store_true',   help="When specified,the script overwrites existing file or tag.")
+    parser.add_argument('--write2tag',  action='store_true',   help="When specified,the script puts lyric to tag of mp3")
+    parser.add_argument('--overwrite',  action='store_true',   help="When specified,the script overwrites existing file or tag.")
+    parser.add_argument('--site',       help="specify the site to search")
     
     args=parser.parse_args()
     logging.basicConfig(level=logging.INFO,

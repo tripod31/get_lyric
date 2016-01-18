@@ -29,12 +29,7 @@ class putitlyrics_com(scraper_base):
         browser.submit_form(form)
         
         #find song link
-        nodes = browser.find_all(name='a')
-        node = None
-        for n in nodes:
-            if self.test_link(n,self.song):
-                node = n
-                break;
+        node = browser.find(lambda tag:self.test_link(tag,self.song))
         if node is None:
             logging.warn(self.log_msg("song not found."))
             return False
