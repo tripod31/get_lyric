@@ -7,7 +7,7 @@ from bs4 import element
 import re
 
 def choose_scrapers(args,artist,song):
-    scrapers = [www_lyrics_az(artist,song),j_lyric_net(artist,song),petitlyrics_com(artist,song)]
+    scrapers = [www_lyrics_az,j_lyric_net,petitlyrics_com]
     
     if not is_all_ascii(artist) or not is_all_ascii(song):
         scrapers = [s for s in scrapers if not args.ascii_only]
@@ -17,6 +17,7 @@ def choose_scrapers(args,artist,song):
     
     if len(scrapers)==0:
         print("no scrapers")
+    
     return scrapers
 
 '''

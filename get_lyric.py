@@ -27,11 +27,12 @@ if __name__ == '__main__':
     scrapers = choose_scrapers(args, args.artist, args.song)
     for scraper in scrapers:    
         try:
-            ret=scraper.get_lyric()
+            obj = scraper(args.artist, args.song)
+            ret=obj.get_lyric()
         except Exception as e:
-            logging.error(scraper.log_msg("error:[%s]" % e))
+            logging.error(obj.log_msg("error:[%s]" % e))
             break
 
         if ret == True:
-            print(scraper.lyric,end="")
+            print(obj.lyric,end="")
             break

@@ -21,12 +21,13 @@ def get_lyric(artist,song,buf):
     
     for scraper in scrapers:
         try:
-            ret=scraper.get_lyric()
+            obj = scraper(artist,song)
+            ret=obj.get_lyric()
         except Exception as e:
-            logging.error(scraper.log_msg("error:[%s]" % e))
+            logging.error(obj.log_msg("error:[%s]" % e))
             return False
         if ret == True:
-            buf.write(scraper.lyric)
+            buf.write(obj.lyric)
             return True
     return False
 
