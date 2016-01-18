@@ -10,7 +10,7 @@ def choose_scrapers(args,artist,song):
     scrapers = [www_lyrics_az,j_lyric_net,petitlyrics_com]
     
     if not is_all_ascii(artist) or not is_all_ascii(song):
-        scrapers = [s for s in scrapers if not args.ascii_only]
+        scrapers = [s for s in scrapers if not s.ascii_only]
         
     if args.site is not None:
         scrapers = [s for s in scrapers if args.site in s.site]
@@ -123,6 +123,7 @@ class www_lyrics_az(scraper_base):
             logging.info(self.log_msg("lyric not found."))
             return False
         
+        logging.info(self.log_msg("lyric *found*"))
         lyric=lyric.replace("´", "'")   #remove character that can't be passed to dll
         self.lyric=lyric
         
@@ -166,6 +167,7 @@ class petitlyrics_com(scraper_base):
             logging.info(self.log_msg("lyric not found."))
             return False
         
+        logging.info(self.log_msg("lyric *found*"))
         buf = io.StringIO()
         self.get_text(node,buf,remove_cr=False)
         lyric = buf.getvalue()
@@ -210,6 +212,7 @@ class j_lyric_net(scraper_base):
             logging.info(self.log_msg("lyric not found."))
             return False
         
+        logging.info(self.log_msg("lyric *found*"))
         buf = io.StringIO()
         self.get_text(node,buf)
         lyric = buf.getvalue()
