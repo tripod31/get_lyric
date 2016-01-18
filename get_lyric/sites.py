@@ -90,28 +90,28 @@ class www_lyrics_az(scraper_base):
         #click artist
         node = browser.find(lambda tag:self.test_link(tag,self.artist))
         if node is None:
-            logging.warn(self.log_msg("artist not found."))
+            logging.info(self.log_msg("artist not found."))
             return False
         browser.follow_link(node)
         
         #click "View All Songs"
         node = browser.find('a',text='View All songs')
         if node is None:
-            logging.warn(self.log_msg("[View All Songs]link not found"))
+            logging.info(self.log_msg("[View All Songs]link not found"))
             return False
         browser.follow_link(node)
         
         #find song link
         node = browser.find(lambda tag:self.test_link(tag,self.song))
         if node is None:
-            logging.warn(self.log_msg("song not found."))
+            logging.info(self.log_msg("song not found."))
             return False
         browser.follow_link(node)
         
         #find lyric
         node = browser.find('span',id="lyrics")
         if node is None:
-            logging.warn(self.log_msg("lyric not found."))
+            logging.info(self.log_msg("lyric not found."))
             return False
         
         buf = io.StringIO()
@@ -119,7 +119,7 @@ class www_lyrics_az(scraper_base):
         lyric = buf.getvalue()
         if "We haven't lyrics of this song." in lyric or \
             "At the moment nobody has submitted lyrics for this song to our archive." in lyric:
-            logging.warn(self.log_msg("lyric not found."))
+            logging.info(self.log_msg("lyric not found."))
             return False
         
         lyric=lyric.replace("´", "'")   #remove character that can't be passed to dll
@@ -155,14 +155,14 @@ class petitlyrics_com(scraper_base):
         #find song link
         node = browser.find(lambda tag:self.test_link(tag,self.song))
         if node is None:
-            logging.warn(self.log_msg("song not found."))
+            logging.info(self.log_msg("song not found."))
             return False
         browser.follow_link(node)
         
         #find lyric
         node = browser.find('canvas',id="lyrics")
         if node is None:
-            logging.warn(self.log_msg("lyric not found."))
+            logging.info(self.log_msg("lyric not found."))
             return False
         
         buf = io.StringIO()
@@ -199,14 +199,14 @@ class j_lyric_net(scraper_base):
         #find song link
         node = browser.find(lambda tag:self.test_link(tag,self.song))
         if node is None:
-            logging.warn(self.log_msg("song not found."))
+            logging.info(self.log_msg("song not found."))
             return False
         browser.follow_link(node)
         
         #find lyric
         node = browser.find('p',id="lyricBody")
         if node is None:
-            logging.warn(self.log_msg("lyric not found."))
+            logging.info(self.log_msg("lyric not found."))
             return False
         
         buf = io.StringIO()
