@@ -11,25 +11,13 @@ import io,os
 
 from mutagen.id3 import ID3
 
-from get_lyric.common import is_all_ascii,find_all_files,write2tag
-# sites classes
-from get_lyric.www_lyrics_az import www_lyrics_az
-from get_lyric.j_lyric_net import j_lyric_net
-from get_lyric.petitlyrics_com import petitlyrics_com
+from get_lyric.common import find_all_files,write2tag
+from get_lyric.sites import choose_scrapers
 
 args = None
 
 def get_lyric(artist,song,buf):
-    scrapers = [www_lyrics_az(artist,song),j_lyric_net(artist,song),petitlyrics_com(artist,song)]
-    
-    if not is_all_ascii(artist) or not is_all_ascii(song):
-        scrapers = [s for s in scrapers if not args.ascii_only]
-        
-    if args.site is not None:
-        scrapers = [s for s in scrapers if args.site in s.site]
-    
-    if len(scrapers)==0:
-        print("no scrapers")
+    scrapers = choose_scrapers(args, artist, song)
     
     for scraper in scrapers:
         try:
