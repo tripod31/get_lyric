@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-from get_lyric.common import scraper_base,is_all_ascii
+from get_lyric.common import is_all_ascii
 import io
 import logging
 from robobrowser import RoboBrowser
+from bs4 import element
+import re
 
 def choose_scrapers(args,artist,song):
     scrapers = [www_lyrics_az(artist,song),j_lyric_net(artist,song),petitlyrics_com(artist,song)]
@@ -17,12 +19,58 @@ def choose_scrapers(args,artist,song):
         print("no scrapers")
     return scrapers
 
+'''
+base class for scraping
+'''
+class scraper_base:
+    def __init__(self,artist,song):
+        self.artist = self.remove_unwanted_chars(artist)
+        self.song = self.remove_unwanted_chars(song)
+    
+    def log_msg(self,msg):
+        msg = "%s:site:[%s]artist:[%s]song:[%s]" % (msg,self.site,self.artist,self.song)
+        return msg
+            
+    '''
+    retreive texts under node of beautifulsoup
+    buf    StringIO:buffer to output text
+    '''
+    def get_text(self,node,buf,remove_cr=True):
+        if isinstance(node,element.Tag):
+            if node.name == "br":
+                buf.write("\n")
+            for e in node.contents:
+                self.get_text(e,buf,remove_cr)
+        if isinstance(node,element.NavigableString):
+            t = node.string
+            if (remove_cr):
+                t = re.sub(r'[\r\n]','',t)
+            buf.write(t)
+            
+    def remove_unwanted_chars(self,s):
+        s=re.sub('\(.*\)','',s) #(・・・)
+        s=re.sub('\[.*\]','',s) #[・・・]
+        s=s.strip() #remove white character at head and tail
+        return s
+    
+    def test_link(self,tag,p_text):
+        if tag.name != 'a':
+            return False
+        if not 'href' in tag.attrs:
+            return False
+        buf = io.StringIO()
+        self.get_text(tag, buf)
+        text = buf.getvalue()
+        if p_text.lower() in text.lower():  #compare in lower case
+            return True
+        return False
+    
 class www_lyrics_az(scraper_base):
-    ascii_only = True
+    ascii_only = True   #handle artist/song which name contains only ascii letters
+    site = 'https://www.lyrics.az/'   
     
     def __init__(self,artist,song):
-        site = 'https://www.lyrics.az/'
-        super().__init__(site,artist,song)
+        super().__init__(artist,song)
     
     '''
     return value:
@@ -83,10 +131,10 @@ class www_lyrics_az(scraper_base):
 
 class petitlyrics_com(scraper_base):
     ascii_only = False
+    site = 'http://petitlyrics.com/search_lyrics'    
     
     def __init__(self,artist,song):
-        site = 'http://petitlyrics.com/search_lyrics'
-        super().__init__(site,artist,song)
+        super().__init__(artist,song)
     
     '''
     return value:
@@ -127,10 +175,10 @@ class petitlyrics_com(scraper_base):
 
 class j_lyric_net(scraper_base):
     ascii_only = False
+    site = 'http://j-lyric.net/'
     
     def __init__(self,artist,song):
-        site = 'http://j-lyric.net/'
-        super().__init__(site,artist,song)
+        super().__init__(artist,song)
     
     '''
     return value:
