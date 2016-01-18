@@ -15,18 +15,22 @@ from get_lyric.common import is_all_ascii,find_all_files,write2tag
 # sites classes
 from get_lyric.www_lyrics_az import www_lyrics_az
 from get_lyric.j_lyric_net import j_lyric_net
-from get_lyric.putitlyrics_com import putitlyrics_com
+from get_lyric.petitlyrics_com import petitlyrics_com
 
 args = None
 
 def get_lyric(artist,song,buf):
-    if is_all_ascii(artist) and is_all_ascii(song):
-        scrapers = [www_lyrics_az(artist,song),putitlyrics_com(artist,song)]
-    else:
-        scrapers = [j_lyric_net(artist,song),putitlyrics_com(artist,song)]
-    if args.site is not None:
-        scrapers = filter(lambda s:args.site in s.site,scrapers)
+    scrapers = [www_lyrics_az(artist,song),j_lyric_net(artist,song),petitlyrics_com(artist,song)]
+    
+    if not is_all_ascii(artist) or not is_all_ascii(song):
+        scrapers = [s for s in scrapers if not args.ascii_only]
         
+    if args.site is not None:
+        scrapers = [s for s in scrapers if args.site in s.site]
+    
+    if len(scrapers)==0:
+        print("no scrapers")
+    
     for scraper in scrapers:
         try:
             ret=scraper.get_lyric()

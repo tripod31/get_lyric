@@ -7,7 +7,9 @@ from robobrowser import RoboBrowser
 '''
 get lyric from site
 '''
-class putitlyrics_com(scraper_base):
+class petitlyrics_com(scraper_base):
+    ascii_only = False
+    
     def __init__(self,artist,song):
         site = 'http://petitlyrics.com/search_lyrics'
         super().__init__(site,artist,song)

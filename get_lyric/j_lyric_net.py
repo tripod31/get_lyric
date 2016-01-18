@@ -8,6 +8,8 @@ from robobrowser import RoboBrowser
 get lyric from site
 '''
 class j_lyric_net(scraper_base):
+    ascii_only = False
+    
     def __init__(self,artist,song):
         site = 'http://j-lyric.net/'
         super().__init__(site,artist,song)
