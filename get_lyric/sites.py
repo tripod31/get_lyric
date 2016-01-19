@@ -55,6 +55,15 @@ class scraper_base:
         s=s.strip() #remove white character at head and tail
         return s
     
+    #compare str,in lowercase,and after removing space
+    def compare_str(self,s1,s2,exact =False):
+        s1=re.sub(' ','',s1).lower()
+        s2=re.sub(' ','',s2).lower()
+        if exact:
+            return s1 == s2
+        else:
+            return s1 in s2
+    
     def test_link(self,tag,p_text,exact=False):
         if tag.name != 'a':
             return False
@@ -63,15 +72,7 @@ class scraper_base:
         buf = io.StringIO()
         self.get_text(tag, buf)
         text = buf.getvalue()
-        if exact:
-            if p_text.lower() == text.lower():
-                return True
-            else:
-                return False
-        
-        if p_text.lower() in text.lower():  #compare in lower case
-            return True
-        return False
+        return self.compare_str(p_text,text)
     
 class www_lyrics_az(scraper_base):
     ascii_only = True   #handle artist/song which name contains only ascii letters
