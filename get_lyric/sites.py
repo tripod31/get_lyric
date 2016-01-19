@@ -5,9 +5,10 @@ import logging
 from robobrowser import RoboBrowser
 from bs4 import element
 import re
+import urllib
 
 def choose_scrapers(args,artist,song):
-    scrapers = [www_lyrics_az,j_lyric_net,petitlyrics_com,www_lyricsfreak_com]
+    scrapers = [www_lyrics_az,j_lyric_net,petitlyrics_com,www_lyricsfreak_com,letssingit_com]
     
     if not is_all_ascii(artist) or not is_all_ascii(song):
         scrapers = [s for s in scrapers if not s.ascii_only]
@@ -54,7 +55,7 @@ class scraper_base:
         s=s.strip() #remove white character at head and tail
         return s
     
-    def test_link(self,tag,p_text):
+    def test_link(self,tag,p_text,exact=False):
         if tag.name != 'a':
             return False
         if not 'href' in tag.attrs:
@@ -62,6 +63,12 @@ class scraper_base:
         buf = io.StringIO()
         self.get_text(tag, buf)
         text = buf.getvalue()
+        if exact:
+            if p_text.lower() == text.lower():
+                return True
+            else:
+                return False
+        
         if p_text.lower() in text.lower():  #compare in lower case
             return True
         return False
@@ -236,7 +243,10 @@ class www_lyricsfreak_com(scraper_base):
     '''
     def get_lyric(self):    
         browser = RoboBrowser(parser="html.parser",history=True)
-        browser.open("http://www.lyricsfreak.com/search.php?a=search&type=band&q=%s" % self.artist)
+        query = {'q': self.artist}
+        query = urllib.parse.urlencode(query)
+        url = "http://www.lyricsfreak.com/search.php?a=search&type=band&" +query
+        browser.open(url)
         
         #find artist link
         node = browser.find(lambda tag:self.test_link(tag,self.artist))
@@ -262,6 +272,51 @@ class www_lyricsfreak_com(scraper_base):
         buf = io.StringIO()
         self.get_text(node,buf)
         lyric = buf.getvalue()
+        
+        self.lyric=lyric
+        
+        return True
+
+class letssingit_com(scraper_base):
+    ascii_only = True
+    site = 'http://www.letssingit.com/'
+    
+    def __init__(self,artist,song):
+        super().__init__(artist,song)
+    
+    '''
+    return value:
+
+    True:success
+    Faluse:error
+    '''
+    def get_lyric(self):    
+        browser = RoboBrowser(parser="html.parser",history=True)
+        query = {'s':"%s - %s" % (self.artist,self.song)}
+        query = urllib.parse.urlencode(query)
+        url = "http://search.letssingit.com/cgi-exe/am.cgi?a=search&artist_id=&" + query
+        browser.open(url)
+        
+        #find song link
+        node = browser.find(lambda tag:self.test_link(tag,self.song,True))
+        if node is None:
+            logging.info(self.log_msg("song not found."))
+            return False
+        browser.follow_link(node)       
+        
+        #find lyric
+        node = browser.find('div',id="lyrics")
+        if node is None:
+            logging.info(self.log_msg("lyric not found."))
+            return False
+        
+        logging.info(self.log_msg("lyric *found*"))
+        buf = io.StringIO()
+        self.get_text(node,buf)
+        lyric = buf.getvalue()
+        if "Unfortunately we don't have the lyrics for the song" in lyric:
+            logging.info(self.log_msg("lyric not found."))
+            return False
         
         self.lyric=lyric
         
