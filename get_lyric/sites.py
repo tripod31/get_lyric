@@ -8,7 +8,7 @@ import re
 import urllib
 
 def choose_scrapers(args,artist,song):
-    scrapers = [www_lyrics_az,j_lyric_net,petitlyrics_com,www_lyricsfreak_com,letssingit_com]
+    scrapers = [www_lyrics_az,j_lyric_net,petitlyrics_com,www_lyricsfreak_com,letssingit_com,genius_com]
     
     if not is_all_ascii(artist) or not is_all_ascii(song):
         scrapers = [s for s in scrapers if not s.ascii_only]
@@ -319,6 +319,52 @@ class letssingit_com(scraper_base):
             logging.info(self.log_msg("lyric not found."))
             return False
         
+        self.lyric=lyric
+        
+        return True
+
+class genius_com(scraper_base):
+    ascii_only = True
+    site = 'http://genius.com/'
+    
+    def __init__(self,artist,song):
+        super().__init__(artist,song)
+    
+    '''
+    return value:
+
+    True:success
+    Faluse:error
+    '''
+    def get_lyric(self):    
+        browser = RoboBrowser(parser="html.parser",history=True)
+        query = {'q':"%s %s" % (self.artist,self.song)}
+        query = urllib.parse.urlencode(query)
+        url = "http://genius.com/search?" + query
+        browser.open(url)
+        
+        #find song link
+        node = browser.find(lambda tag:self.test_link(tag,self.song,True))
+        if node is None:
+            logging.info(self.log_msg("song not found."))
+            return False
+        browser.follow_link(node)
+        
+        #find lyric
+        node = browser.find('lyrics',attrs={'class':"lyrics"})
+        if node is None:
+            logging.info(self.log_msg("lyric not found."))
+            return False
+        
+        logging.info(self.log_msg("lyric *found*"))
+        buf = io.StringIO()
+        self.get_text(node,buf)
+        lyric = buf.getvalue()
+        """
+        if "Unfortunately we don't have the lyrics for the song" in lyric:
+            logging.info(self.log_msg("lyric not found."))
+            return False
+        """
         self.lyric=lyric
         
         return True
