@@ -25,7 +25,7 @@ def get_lyric(artist,song,buf):
             ret=obj.get_lyric()
         except Exception as e:
             logging.error(obj.log_msg("error:[%s]" % e))
-            return False
+            continue
         if ret == True:
             buf.write(obj.lyric)
             return True

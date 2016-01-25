@@ -31,7 +31,7 @@ if __name__ == '__main__':
             ret=obj.get_lyric()
         except Exception as e:
             logging.error(obj.log_msg("error:[%s]" % e))
-            break
+            continue
 
         if ret == True:
             print(obj.lyric,end="")
