@@ -10,6 +10,7 @@ python3.5
 required libraries
 -----
 robobrowser  
+beautifulsoup4  
 mutagen(for get_lyrics.py only)
 
 get_lyric.py
