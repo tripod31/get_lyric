@@ -83,7 +83,7 @@ class scraper_base:
         return s
     
     #compare str,in lowercase,and after removing space
-    def compare_str(self,s1,s2,exact =False):
+    def compare_str(self,s1,s2,exact =True):
         s1=re.sub(' ','',s1).lower()
         s2=re.sub(' ','',s2).lower()
         if exact:
@@ -91,7 +91,7 @@ class scraper_base:
         else:
             return s1 in s2
     
-    def test_link(self,tag,p_text,exact=False):
+    def test_link(self,tag,p_text,exact=True):
         if tag.name != 'a':
             return False
         if not 'href' in tag.attrs:
@@ -99,7 +99,7 @@ class scraper_base:
         buf = io.StringIO()
         self.get_text(tag, buf)
         text = buf.getvalue()
-        return self.compare_str(p_text,text)
+        return self.compare_str(p_text,text,exact)
     
 class www_lyrics_az(scraper_base):
     ascii_only = True       #handle artist/song which name contains only ascii letters
@@ -306,7 +306,7 @@ class letssingit_com(scraper_base):
         self.browser.open(url)
         
         #find song link
-        node = self.browser.find(lambda tag:self.test_link(tag,self.song,True))
+        node = self.browser.find(lambda tag:self.test_link(tag,self.song))
         if node is None:
             logging.info(self.log_msg("song not found."))
             return False
@@ -347,7 +347,7 @@ class genius_com(scraper_base):
         self.browser.open(url)
         
         #find song link
-        node = self.browser.find(lambda tag:self.test_link(tag,self.song,True))
+        node = self.browser.find(lambda tag:self.test_link(tag,self.song))
         if node is None:
             logging.info(self.log_msg("song not found."))
             return False
@@ -389,7 +389,7 @@ class www_azlyrics_com(scraper_base):
         self.browser.open(url)
         
         #find song link
-        node = self.browser.find(lambda tag:self.test_link(tag,self.song,True))
+        node = self.browser.find(lambda tag:self.test_link(tag,self.song))
         if node is None:
             logging.info(self.log_msg("song not found."))
             return False
