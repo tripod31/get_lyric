@@ -11,7 +11,7 @@ from robobrowser import RoboBrowser
 
 from get_lyric.common import is_all_ascii
 
-def choose_scrapers(args,artist,song):
+def choose_scrapers(site,artist,song):
     scrapers = [
                 www_lyrics_az,
                 j_lyric_net,
@@ -25,8 +25,8 @@ def choose_scrapers(args,artist,song):
     if not is_all_ascii(artist) or not is_all_ascii(song):
         scrapers = [s for s in scrapers if not s.ascii_only]
         
-    if args.site is not None:
-        scrapers = [s for s in scrapers if args.site in s.site]
+    if site is not None:
+        scrapers = [s for s in scrapers if site in s.site]
     
     if len(scrapers)==0:
         print("no scrapers")

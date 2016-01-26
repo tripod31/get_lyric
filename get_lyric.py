@@ -25,7 +25,7 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO,
                         stream = open("get_lyric.log",mode="w",encoding="utf-8"))
     logging.info("argument:artist[%s]song[%s]" % (args.artist,args.song))
-    scrapers = choose_scrapers(args, args.artist, args.song)
+    scrapers = choose_scrapers(args.site, args.artist, args.song)
     for scraper in scrapers:    
         try:
             obj = scraper(args.artist, args.song,args.proxy)
