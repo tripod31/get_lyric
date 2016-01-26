@@ -19,7 +19,8 @@ if __name__ == '__main__':
     parser.add_argument('--artist')
     parser.add_argument('--song')
     parser.add_argument('--site',       help="specify the site to search")
-        
+    parser.add_argument('--proxy',      help="proxy url")
+            
     args=parser.parse_args()
     logging.basicConfig(level=logging.INFO,
                         stream = open("get_lyric.log",mode="w",encoding="utf-8"))
@@ -27,7 +28,7 @@ if __name__ == '__main__':
     scrapers = choose_scrapers(args, args.artist, args.song)
     for scraper in scrapers:    
         try:
-            obj = scraper(args.artist, args.song)
+            obj = scraper(args.artist, args.song,args.proxy)
             ret=obj.get_lyric()
         except Exception as e:
             logging.error(obj.log_msg("error:[%s]" % e))
