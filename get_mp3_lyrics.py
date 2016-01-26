@@ -17,6 +17,7 @@ from get_lyric.sites import choose_scrapers
 args = None
 
 def get_lyric(artist,song,buf):
+    logging.info("get_lyric:artist[%s]:song[%s]"%(artist,song))
     scrapers = choose_scrapers(args.site, artist, song)
     
     for scraper in scrapers:

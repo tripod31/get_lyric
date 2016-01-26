@@ -54,7 +54,8 @@ class scraper_base:
             self.browser = RoboBrowser(parser="html.parser",user_agent='MozillaFirefox')
     
     def log_msg(self,msg):
-        msg = "%s:site:[%s]artist:[%s]song:[%s]" % (msg,self.site,self.artist,self.song)
+        #msg = "%s:site:[%s]artist:[%s]song:[%s]" % (msg,self.site,self.artist,self.song)
+        msg = "%s:site:[%s]" % (msg,self.site)
         return msg
             
     '''
