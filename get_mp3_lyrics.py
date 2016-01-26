@@ -11,7 +11,7 @@ import io,os
 
 from mutagen.id3 import ID3
 
-from get_lyric.common import find_all_files,write2tag
+from get_lyric.common import find_all_files,write2tag,read_config
 from get_lyric.sites import choose_scrapers
 
 args = None
@@ -105,6 +105,8 @@ if __name__ == '__main__':
     parser.add_argument('--proxy',      help="proxy url:port")
         
     args=parser.parse_args()
+    read_config(args)
+    
     logging.basicConfig(level=logging.INFO,
                         stream = open("get_lyrics.log",mode="w",encoding="utf-8"))
 

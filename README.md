@@ -52,3 +52,13 @@ For mp3 files in specified directory,it search lyric from the site,and put it to
 
 ####log
 The script put some debug information to "get_lyrics.log",in current directory.  
+
+get_lyric.cfg
+-----
+If there is this file in current directory,the script reads argument from it.  
+Example:  
+
+    [settings]
+    proxy = 36.234.184.32:3128
+ 
+ The first line "[settings]" is mandetary.

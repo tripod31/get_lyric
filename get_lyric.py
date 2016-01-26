@@ -11,6 +11,7 @@ import sys,io
 
 # sites classes
 from get_lyric.sites import choose_scrapers
+from get_lyric.common import read_config
 
 if __name__ == '__main__':
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')  #for unicodeerror
@@ -22,6 +23,8 @@ if __name__ == '__main__':
     parser.add_argument('--proxy',      help="proxy url:port")
             
     args=parser.parse_args()
+    read_config(args)
+    
     logging.basicConfig(level=logging.INFO,
                         stream = open("get_lyric.log",mode="w",encoding="utf-8"))
     logging.info("argument:artist[%s]song[%s]" % (args.artist,args.song))

@@ -4,6 +4,22 @@ import re
 import os
 from mutagen.id3 import USLT,TXXX
 import logging
+import configparser
+
+'''
+read ini file and add value to args
+
+args    return object of parsearg()
+'''
+def read_config(args):
+    INI_FILE = 'get_lyric.cfg'
+    if not os.path.exists(INI_FILE):
+        return
+    config = configparser.RawConfigParser()
+    config.read(INI_FILE)
+    d = vars(args)
+    for (k,v) in config.items('settings'):
+        d[k]=v
 
 '''
 arguments:
