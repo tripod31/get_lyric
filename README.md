@@ -37,7 +37,8 @@ get_mp3_lyrics.py
 -----
 For mp3 files in specified directory,it search lyric from the site,and put it to file or tag of mp3.  
 #### usage
-    python grt_mp3_lyrics.py --in_dir "mp3_files_dir" [--out_dir "output_dir"] [--write2tag] [--overwrite] [--proxy url:port] [--site site]
+    python grt_mp3_lyrics.py --in_dir "mp3_files_dir" 
+    [--out_dir "output_dir"] [--write2tag] [--overwrite] [--proxy url:port] [--site site]
 
 +    in_dir  
     directory where mp3 files are

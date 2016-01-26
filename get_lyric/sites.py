@@ -221,12 +221,6 @@ class j_lyric_net(scraper_base):
         url = "http://search.j-lyric.net/index.php?" +query
         self.browser.open(url)
         
-        #search artist/song
-        form = self.browser.get_form(action='http://search.j-lyric.net/index.php')
-        form['kt'].value = self.song
-        form['ka'].value = self.artist
-        self.browser.submit_form(form)
-        
         #find song link
         node = self.browser.find(lambda tag:self.test_link(tag,self.song))
         if node is None:
