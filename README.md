@@ -25,7 +25,7 @@ When the lyric is found,the script put lyric to standard output.
     Specify site name to serach,in regular expression.  
     Available site names are displayed by:  
 
->python get_lyric.py --list
+    >python get_lyric.py --list
 
 +    list  
     List Available site names,and exit.  
@@ -50,7 +50,7 @@ For mp3 files in specified directory,it search lyric from the site,and put it to
 +    write2tag  
     The script puts lyric to tag of mp3.
     If lyric contains text like  
->[00:00.00]lyric text  
+    >[00:00.00]lyric text  
 
     ,lyric is saved to synced lyrics tag.Otherwise it is saved to unsynced lyrics tag.  
 +    overwrite  
