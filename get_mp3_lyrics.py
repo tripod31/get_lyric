@@ -29,6 +29,8 @@ def get_lyric(artist,song,buf):
         if ret == True:
             buf.write(obj.lyric)
             return True
+    
+    logging.info("no lyrics at all sites")
     return False
 
 def process_mp3(file):

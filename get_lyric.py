@@ -36,6 +36,7 @@ if __name__ == '__main__':
                         stream = open("get_lyric.log",mode="w",encoding="utf-8"))
     logging.info("argument:" + str(args))
     scrapers = choose_scrapers(args.site, args.artist, args.song)
+    ret = False
     for scraper in scrapers:    
         try:
             obj = scraper(args.artist, args.song,args.proxy)
@@ -47,3 +48,6 @@ if __name__ == '__main__':
         if ret == True:
             print(obj.lyric,end="")
             break
+    
+    if ret==False:
+        logging.info("no lyrics at all sites")

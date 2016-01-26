@@ -15,8 +15,8 @@ def read_config(args):
     INI_FILE = 'get_lyric.cfg'
     if not os.path.exists(INI_FILE):
         return
-    config = configparser.RawConfigParser()
-    config.read(INI_FILE)
+    config = configparser.ConfigParser()
+    config.read_file(open(INI_FILE,'r'))
     d = vars(args)
     for (k,v) in config.items('settings'):
         d[k]=v
