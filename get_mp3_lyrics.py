@@ -102,7 +102,7 @@ if __name__ == '__main__':
     parser.add_argument('--write2tag',  action='store_true',   help="When specified,the script puts lyric to tag of mp3")
     parser.add_argument('--overwrite',  action='store_true',   help="When specified,the script overwrites existing file or tag.")
     parser.add_argument('--site',       help="specify the site to search")
-    parser.add_argument('--proxy',      help="proxy url")
+    parser.add_argument('--proxy',      help="proxy url:port")
         
     args=parser.parse_args()
     logging.basicConfig(level=logging.INFO,

@@ -19,7 +19,7 @@ if __name__ == '__main__':
     parser.add_argument('--artist')
     parser.add_argument('--song')
     parser.add_argument('--site',       help="specify the site to search")
-    parser.add_argument('--proxy',      help="proxy url")
+    parser.add_argument('--proxy',      help="proxy url:port")
             
     args=parser.parse_args()
     logging.basicConfig(level=logging.INFO,
