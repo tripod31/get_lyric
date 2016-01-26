@@ -12,11 +12,13 @@ read ini file and add value to args
 args    return object of parsearg()
 '''
 def read_config(args):
-    INI_FILE = 'get_lyric.cfg'
+    INI_FILE = 'get_lyric.cnf'
     if not os.path.exists(INI_FILE):
         return
     config = configparser.ConfigParser()
-    config.read_file(open(INI_FILE,'r'))
+    with open(INI_FILE,'r') as f:
+        config.read_file(f)
+    f.close()
     d = vars(args)
     for (k,v) in config.items('settings'):
         d[k]=v

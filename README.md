@@ -64,7 +64,7 @@ arguments below are same as get_lyric.py.
 ####log
 The script put some debug information to "get_lyrics.log",in current directory.  
 
-get_lyric.cfg
+get_lyric.cnf
 -----
 If there is this file in current directory,the script reads argument from it.  
 Example:  
