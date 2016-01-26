@@ -8,9 +8,12 @@ import urllib
 from bs4 import element,Comment
 from requests import Session
 from robobrowser import RoboBrowser
-
 from get_lyric.common import is_all_ascii
 
+
+'''
+site    specify the site to search,in regular expression
+'''
 def choose_scrapers(site,artist,song):
     scrapers = [
                 www_lyrics_az,
@@ -26,7 +29,7 @@ def choose_scrapers(site,artist,song):
         scrapers = [s for s in scrapers if not s.ascii_only]
         
     if site is not None:
-        scrapers = [s for s in scrapers if site in s.site]
+        scrapers = [s for s in scrapers if re.search(site, s.site) is not None]
     
     if len(scrapers)==0:
         print("no scrapers")

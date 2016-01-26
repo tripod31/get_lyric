@@ -19,7 +19,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--artist')
     parser.add_argument('--song')
-    parser.add_argument('--site',       help="specify the site to search")
+    parser.add_argument('--site',       help="specify the site to search,in regular expression")
     parser.add_argument('--proxy',      help="proxy url:port")
             
     args=parser.parse_args()

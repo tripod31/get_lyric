@@ -20,7 +20,7 @@ When the lyric is found,the script put lyric to standard output.
 
 +    proxy  
     proxy url.When specified,the script use proxy to access to sites. 
-    
+
 ####log
 The script put some debug information to "get_lyric.log",in current directory.
 
@@ -60,5 +60,6 @@ Example:
 
     [settings]
     proxy = 36.234.184.32:3128
+    #comment (ignored)
  
  The first line "[settings]" is mandetary.
