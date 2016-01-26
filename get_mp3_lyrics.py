@@ -109,7 +109,8 @@ if __name__ == '__main__':
     
     logging.basicConfig(level=logging.INFO,
                         stream = open("get_lyrics.log",mode="w",encoding="utf-8"))
-
+    logging.info("argument:" + str(args))
+    
     if args.out_dir is not None:
         if not os.path.exists(args.out_dir):
             os.makedirs(args.out_dir)
