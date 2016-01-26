@@ -5,7 +5,7 @@ import logging
 import re
 import urllib
 
-from bs4 import element
+from bs4 import element,Comment
 from requests import Session
 from robobrowser import RoboBrowser
 
@@ -44,9 +44,9 @@ class scraper_base:
         if proxy is not None:
             session = Session()
             session.proxies = {'http': proxy}
-            self.browser = RoboBrowser(parser="html.parser",session=session)
+            self.browser = RoboBrowser(parser="html.parser",user_agent='MozillaFirefox',session=session)
         else:
-            self.browser = RoboBrowser(parser="html.parser")
+            self.browser = RoboBrowser(parser="html.parser",user_agent='MozillaFirefox')
     
     def log_msg(self,msg):
         msg = "%s:site:[%s]artist:[%s]song:[%s]" % (msg,self.site,self.artist,self.song)
@@ -57,6 +57,8 @@ class scraper_base:
     buf    StringIO:buffer to output text
     '''
     def get_text(self,node,buf,remove_cr=True):
+        if isinstance(node,Comment):
+            return  #ignore comment
         if isinstance(node,element.Tag):
             if node.name == "br":
                 buf.write("\n")
@@ -391,12 +393,14 @@ class www_azlyrics_com(scraper_base):
         self.browser.follow_link(node)
         
         #find lyric
-        node = self.browser.find('div',attrs={'class':'ringtone'})
+        node = self.browser.find(text=re.compile("Usage"))
         if node is None:
             msg = "lyric not found."
-            msg += "\n" + self.browser.response.text
+            #msg += "\n" + self.browser.response.text
             logging.info(self.log_msg(msg))
             return False
+        
+        node = node.parent  #div
         
         logging.info(self.log_msg("lyric *found*"))
         buf = io.StringIO()
