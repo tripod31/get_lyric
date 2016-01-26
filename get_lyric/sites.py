@@ -10,20 +10,22 @@ from requests import Session
 from robobrowser import RoboBrowser
 from get_lyric.common import is_all_ascii
 
-
+def list_scrapers():
+    scrapers = [
+            www_lyrics_az,
+            j_lyric_net,
+            petitlyrics_com,
+            www_lyricsfreak_com,
+            letssingit_com,
+            genius_com,
+            www_azlyrics_com
+            ]
+    return scrapers
 '''
 site    specify the site to search,in regular expression
 '''
 def choose_scrapers(site,artist,song):
-    scrapers = [
-                www_lyrics_az,
-                j_lyric_net,
-                petitlyrics_com,
-                www_lyricsfreak_com,
-                letssingit_com,
-                genius_com,
-                www_azlyrics_com
-                ]
+    scrapers = list_scrapers()
     
     if not is_all_ascii(artist) or not is_all_ascii(song):
         scrapers = [s for s in scrapers if not s.ascii_only]
@@ -99,9 +101,8 @@ class scraper_base:
         return self.compare_str(p_text,text)
     
 class www_lyrics_az(scraper_base):
-    ascii_only = True   #handle artist/song which name contains only ascii letters
-    site = 'https://www.lyrics.az/'   
-    
+    ascii_only = True       #handle artist/song which name contains only ascii letters
+    site = 'www.lyrics.az'  #name used for list sites
    
     '''
     return value:
@@ -109,8 +110,11 @@ class www_lyrics_az(scraper_base):
     True:success
     Faluse:error
     '''
-    def get_lyric(self):    
-        self.browser.open(self.site)
+    def get_lyric(self):
+        query = {'keyword': self.artist}
+        query = urllib.parse.urlencode(query)
+        url = "https://www.lyrics.az/?new_a=mixedsearch2&" +query
+        self.browser.open(url)
         
         #search artist
         form = self.browser.get_form(action='/')
@@ -162,8 +166,7 @@ class www_lyrics_az(scraper_base):
 
 class petitlyrics_com(scraper_base):
     ascii_only = False
-    site = 'http://petitlyrics.com/search_lyrics'    
-    
+    site = 'petitlyrics.com'
     
     '''
     return value:
@@ -171,8 +174,8 @@ class petitlyrics_com(scraper_base):
     True:success
     Faluse:error
     '''
-    def get_lyric(self):    
-        self.browser.open(self.site)
+    def get_lyric(self):
+        self.browser.open('http://petitlyrics.com/search_lyrics')
         
         #search artist
         form = self.browser.get_form(action='/search_lyrics')
@@ -204,8 +207,7 @@ class petitlyrics_com(scraper_base):
 
 class j_lyric_net(scraper_base):
     ascii_only = False
-    site = 'http://j-lyric.net/'
-    
+    site = 'j-lyric.net'
     
     '''
     return value:
@@ -213,10 +215,13 @@ class j_lyric_net(scraper_base):
     True:success
     Faluse:error
     '''
-    def get_lyric(self):    
-        self.browser.open(self.site)
+    def get_lyric(self):
+        query = {'ka': self.artist,'kt':self.song}
+        query = urllib.parse.urlencode(query)
+        url = "http://search.j-lyric.net/index.php?" +query
+        self.browser.open(url)
         
-        #search artist
+        #search artist/song
         form = self.browser.get_form(action='http://search.j-lyric.net/index.php')
         form['kt'].value = self.song
         form['ka'].value = self.artist
@@ -246,7 +251,7 @@ class j_lyric_net(scraper_base):
 
 class www_lyricsfreak_com(scraper_base):
     ascii_only = True
-    site = 'http://www.lyricsfreak.com/'
+    site = 'www.lyricsfreak.com'
     
     '''
     return value:
@@ -291,7 +296,7 @@ class www_lyricsfreak_com(scraper_base):
 
 class letssingit_com(scraper_base):
     ascii_only = True
-    site = 'http://www.letssingit.com/'
+    site = 'www.letssingit.com'
     
     '''
     return value:
@@ -332,7 +337,7 @@ class letssingit_com(scraper_base):
 
 class genius_com(scraper_base):
     ascii_only = True
-    site = 'http://genius.com/'
+    site = 'genius.com'
     
     '''
     return value:
@@ -374,7 +379,7 @@ class genius_com(scraper_base):
 
 class www_azlyrics_com(scraper_base):
     ascii_only = True
-    site = 'http://www.azlyrics.com/'
+    site = 'www.azlyrics.com'
     
     '''
     return value:

@@ -10,7 +10,7 @@ import logging
 import sys,io
 
 # sites classes
-from get_lyric.sites import choose_scrapers
+from get_lyric.sites import list_scrapers,choose_scrapers
 from get_lyric.common import read_config
 
 if __name__ == '__main__':
@@ -21,8 +21,15 @@ if __name__ == '__main__':
     parser.add_argument('--song')
     parser.add_argument('--site',       help="specify the site to search,in regular expression")
     parser.add_argument('--proxy',      help="proxy url:port")
-            
+    parser.add_argument('--list',       action='store_true',  help="print scraper classes and exit")
+    
     args=parser.parse_args()
+    if args.list:
+        for s in list_scrapers():
+            print(s.site)
+        sys.exit()
+    
+    
     read_config(args)
     
     logging.basicConfig(level=logging.INFO,
