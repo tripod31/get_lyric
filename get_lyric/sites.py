@@ -84,8 +84,8 @@ class scraper_base:
     
     #compare str,in lowercase,and after removing space
     def compare_str(self,s1,s2,exact =True):
-        s1=re.sub(' ','',s1).lower()
-        s2=re.sub(' ','',s2).lower()
+        s1=re.sub('[ \xa0]','',s1).lower()  #\xa0=&nbsp;
+        s2=re.sub('[ \xa0]','',s2).lower()
         if exact:
             return s1 == s2
         else:
@@ -112,15 +112,11 @@ class www_lyrics_az(scraper_base):
     Faluse:error
     '''
     def get_lyric(self):
+        #search artist        
         query = {'keyword': self.artist}
         query = urllib.parse.urlencode(query)
         url = "https://www.lyrics.az/?new_a=mixedsearch2&" +query
         self.browser.open(url)
-        
-        #search artist
-        form = self.browser.get_form(action='/')
-        form['keyword'].value = self.artist
-        self.browser.submit_form(form)
         
         #click artist
         node = self.browser.find(lambda tag:self.test_link(tag,self.artist))
@@ -185,7 +181,7 @@ class petitlyrics_com(scraper_base):
         self.browser.submit_form(form)
         
         #find song link
-        node = self.browser.find(lambda tag:self.test_link(tag,self.song))
+        node = self.browser.find(lambda tag:self.test_link(tag,self.song,False))
         if node is None:
             logging.info(self.log_msg("song not found."))
             return False
@@ -261,16 +257,19 @@ class www_lyricsfreak_com(scraper_base):
         self.browser.open(url)
         
         #find artist link
-        node = self.browser.find(lambda tag:self.test_link(tag,self.artist))
+        node = self.browser.find(lambda tag:self.test_link(tag,self.artist,False))
         if node is None:
             logging.info(self.log_msg("artist not found."))
             return False
         self.browser.follow_link(node)
         
         #find song link
-        node = self.browser.find(lambda tag:self.test_link(tag,self.song))
+        song_text = "·"+self.song+"lyrics"
+        node = self.browser.find(lambda tag:self.test_link(tag,song_text))
         if node is None:
-            logging.info(self.log_msg("song not found."))
+            msg = "song not found."
+            msg += self.browser.response.text
+            logging.info(self.log_msg(msg))
             return False
         self.browser.follow_link(node)       
         
@@ -347,7 +346,7 @@ class genius_com(scraper_base):
         self.browser.open(url)
         
         #find song link
-        node = self.browser.find(lambda tag:self.test_link(tag,self.song))
+        node = self.browser.find(lambda tag:self.test_link(tag,self.song,False))
         if node is None:
             logging.info(self.log_msg("song not found."))
             return False

@@ -27,7 +27,7 @@ if __name__ == '__main__':
     if args.list:
         for s in list_scrapers():
             print(s.site)
-        sys.exit()
+        sys.exit(0)
     
     
     read_config(args)
