@@ -268,7 +268,7 @@ class www_lyricsfreak_com(scraper_base):
         node = self.browser.find(lambda tag:self.test_link(tag,song_text))
         if node is None:
             msg = "song not found."
-            msg += self.browser.response.text
+            #msg += self.browser.response.text
             logging.info(self.log_msg(msg))
             return False
         self.browser.follow_link(node)       

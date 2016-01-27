@@ -16,7 +16,7 @@ get_lyric.py
 -----
 When the lyric is found,the script put lyric to standard output.  
 #### usage
-    python get_lyric.py --artist "artist name" --song "song name" [--proxy url:port] [--site site]
+    python get_lyric.py --artist "artist name" --song "song name" [--proxy url:port] [--site site] [--list]
 
 +    proxy  
     proxy url.When specified,the script use proxy to access to sites. 
