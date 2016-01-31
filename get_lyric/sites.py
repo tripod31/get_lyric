@@ -42,17 +42,24 @@ def choose_scrapers(site,artist,song):
 base class for scraping
 '''
 class scraper_base:
-    def __init__(self,artist,song,proxy):
+    def __init__(self,artist,song,p_proxy):
         self.artist = self.remove_unwanted_chars(artist)
         self.song = self.remove_unwanted_chars(song)
         
-        if proxy is not None:
-            session = Session()
-            session.proxies = {'http': proxy}
-            self.browser = RoboBrowser(parser="html.parser",user_agent='MozillaFirefox',session=session)
-        else:
-            self.browser = RoboBrowser(parser="html.parser",user_agent='MozillaFirefox')
-    
+        if p_proxy is not None:
+            m= re.match('(.+),([\d\.\:]+)',p_proxy)
+            if m:
+                site = m.group(1)
+                proxy = m.group(2)
+                if re.search(site,self.site):
+                    logging.info(self.log_msg("use proxy"))
+                    session = Session()
+                    session.proxies = {'http': proxy}
+                    self.browser = RoboBrowser(parser="html.parser",user_agent='MozillaFirefox',session=session)
+                    return
+        
+        self.browser = RoboBrowser(parser="html.parser",user_agent='MozillaFirefox')
+
     def log_msg(self,msg):
         #msg = "%s:site:[%s]artist:[%s]song:[%s]" % (msg,self.site,self.artist,self.song)
         msg = "%s:site:[%s]" % (msg,self.site)

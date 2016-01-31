@@ -20,7 +20,7 @@ if __name__ == '__main__':
     parser.add_argument('--artist')
     parser.add_argument('--song')
     parser.add_argument('--site',       help="specify the site to search,in regular expression")
-    parser.add_argument('--proxy',      help="proxy url:port")
+    parser.add_argument('--proxy',      help="[site name in regular expression],[proxy url:port]")
     parser.add_argument('--list',       action='store_true',  help="print scraper classes and exit")
     
     args=parser.parse_args()
