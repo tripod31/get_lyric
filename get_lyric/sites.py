@@ -46,6 +46,7 @@ class scraper_base:
         self.artist = self.remove_unwanted_chars(artist)
         self.song = self.remove_unwanted_chars(song)
         
+        self.browser = None
         if p_proxy is not None:
             m= re.match('(.+),([\d\.\:]+)',p_proxy)
             if m:
@@ -56,9 +57,9 @@ class scraper_base:
                     session = Session()
                     session.proxies = {'http': proxy}
                     self.browser = RoboBrowser(parser="html.parser",user_agent='MozillaFirefox',session=session)
-                    return
         
-        self.browser = RoboBrowser(parser="html.parser",user_agent='MozillaFirefox')
+        if self.browser is None:
+            self.browser = RoboBrowser(parser="html.parser",user_agent='MozillaFirefox')
 
     def log_msg(self,msg):
         #msg = "%s:site:[%s]artist:[%s]song:[%s]" % (msg,self.site,self.artist,self.song)
