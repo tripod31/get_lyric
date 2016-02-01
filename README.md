@@ -72,7 +72,7 @@ If there is this file in current directory,the script reads argument from it.
 Example:  
 
     [settings]
-    proxy = 36.234.184.32:3128
+    proxy = azlyrics,36.234.184.32:3128
     #comment (ignored)
  
  The first line "[settings]" is mandetary.
