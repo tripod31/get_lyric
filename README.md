@@ -10,7 +10,7 @@ required libraries
 -----
 robobrowser  
 beautifulsoup4  
-mutagen(for get_mp3_lyrics.py only)
+mutagen
 
 get_lyric.py
 -----
