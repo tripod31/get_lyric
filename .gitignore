@@ -4,6 +4,7 @@
 .settings/
 *.log
 *.cnf
+test.py
 copy.bat
-test
+test/
 __pycache__
