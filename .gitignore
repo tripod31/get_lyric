@@ -2,6 +2,8 @@
 .pydev*
 .*.html
 .settings/
+*.log
+*.cnf
 copy.bat
 test
 __pycache__
