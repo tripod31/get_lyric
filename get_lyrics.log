@@ -1,0 +1,29 @@
+INFO:root:argument:Namespace(in_dir='D:\\yoshi\\Music\\mp3', out_dir=None, overwrite=False, proxy=None, site=None, write2tag=True)
+INFO:root:get_lyric:artist[Anderson Bruford Wakeman Howe]:song[Benjamin Brittens Young Persons Guide To The Orchestra]
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTPS connection (1): www.lyrics.az
+INFO:root:artist not found.:site:[www.lyrics.az]
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1): search.j-lyric.net
+INFO:root:song not found.:site:[j-lyric.net]
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1): petitlyrics.com
+INFO:requests.packages.urllib3.connectionpool:Resetting dropped connection: petitlyrics.com
+INFO:root:song not found.:site:[petitlyrics.com]
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1): www.lyricsfreak.com
+INFO:root:artist not found.:site:[www.lyricsfreak.com]
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1): search.letssingit.com
+INFO:root:song not found.:site:[www.letssingit.com]
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1): genius.com
+INFO:root:song not found.:site:[genius.com]
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1): search.azlyrics.com
+INFO:root:song not found.:site:[www.azlyrics.com]
+INFO:root:no lyrics at all sites
+INFO:root:get_lyric:artist[Anderson Bruford Wakeman Howe]:song[Time And A Word/Owner Oh A Lonely Heart/Teakbois/Time And A Word]
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTPS connection (1): www.lyrics.az
+INFO:root:artist not found.:site:[www.lyrics.az]
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1): search.j-lyric.net
+INFO:root:song not found.:site:[j-lyric.net]
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1): petitlyrics.com
+INFO:requests.packages.urllib3.connectionpool:Resetting dropped connection: petitlyrics.com
+INFO:root:song not found.:site:[petitlyrics.com]
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1): www.lyricsfreak.com
+INFO:root:artist not found.:site:[www.lyricsfreak.com]
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1): search.letssingit.com

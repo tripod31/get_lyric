@@ -1,0 +1,7 @@
+.project
+.pydev*
+.*.html
+.settings/
+copy.bat
+test
+__pycache__

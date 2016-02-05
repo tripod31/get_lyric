@@ -1,0 +1,18 @@
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1): genius.com
+INFO:root:lyric *found*:site:[genius.com]
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1): search.j-lyric.net
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1): j-lyric.net
+INFO:root:lyric *found*:site:[j-lyric.net]
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1): search.letssingit.com
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1): artists.letssingit.com
+INFO:root:lyric *found*:site:[www.letssingit.com]
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1): petitlyrics.com
+INFO:requests.packages.urllib3.connectionpool:Resetting dropped connection: petitlyrics.com
+INFO:requests.packages.urllib3.connectionpool:Resetting dropped connection: petitlyrics.com
+INFO:root:lyric *found*:site:[petitlyrics.com]
+INFO:root:use proxy:site:[www.azlyrics.com]
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1): 64.147.136.88
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTPS connection (1): www.lyrics.az
+INFO:root:lyric *found*:site:[www.lyrics.az]
+INFO:requests.packages.urllib3.connectionpool:Starting new HTTP connection (1): www.lyricsfreak.com
+INFO:root:lyric *found*:site:[www.lyricsfreak.com]
