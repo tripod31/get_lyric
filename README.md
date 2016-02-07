@@ -16,7 +16,8 @@ get_lyric.py
 -----
 When the lyric is found,the script put lyric to standard output.  
 #### usage
-    python get_lyric.py --artist "artist name" --song "song name" [--proxy [site name in regular expression],[proxy url:port]] [--site site] [--list]
+    python get_lyric.py --artist "artist name" --song "song name"  
+         [--proxy PROXY]] [--site SITE] [--list]
 
 +    proxy  
     site name in regular expression and proxy url:port.When specified,the script use proxy to access to sites.   
@@ -40,7 +41,8 @@ get_mp3_lyrics.py
 For mp3 files in specified directory,it search lyric from the site,and put it to file or tag of mp3.  
 #### usage
     python grt_mp3_lyrics.py --in_dir "mp3_files_dir" 
-    [--out_dir "output_dir"] [--write2tag] [--overwrite] [--proxy [site name in regular expression],[proxy url:port]] [--site site]
+    [--out_dir OUT_DIR] [--write2tag] [--overwrite]  
+    [--proxy PROXY] [--site SITE]
 
 +    in_dir  
     directory where mp3 files are
