@@ -56,7 +56,7 @@ class scraper_base:
                     logging.info(self.log_msg("use proxy"))
                     session = Session()
                     session.proxies = {'http': proxy}
-                    self.browser = RoboBrowser(parser="html.parser",user_agent='MozillaFirefox',session=session)
+                    self.browser = RoboBrowser(parser="html.parser",user_agent='Mozilla Firefox',session=session)
         
         if self.browser is None:
             self.browser = RoboBrowser(parser="html.parser",user_agent='MozillaFirefox')

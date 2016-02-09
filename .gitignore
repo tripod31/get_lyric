@@ -12,3 +12,4 @@ __pycache__
 /build.xml
 /build/
 /get_lyric.spec
+/test.xml

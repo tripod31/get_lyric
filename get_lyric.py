@@ -17,18 +17,17 @@ if __name__ == '__main__':
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')  #for unicodeerror
     
     parser = argparse.ArgumentParser()
-    parser.add_argument('--artist')
-    parser.add_argument('--song')
-    parser.add_argument('--site',       help="specify the site to search,in regular expression")
-    parser.add_argument('--proxy',      help="[site name in regular expression],[proxy url:port]")
-    parser.add_argument('--list',       action='store_true',  help="print scraper classes and exit")
+    parser.add_argument('--artist'      ,required=True)
+    parser.add_argument('--song'        ,required=True)
+    parser.add_argument('--site'        ,help="specify the site to search,in regular expression")
+    parser.add_argument('--proxy'       ,help="[site name in regular expression],[proxy url:port]")
+    parser.add_argument('--list'        ,action='store_true',  help="print scraper classes and exit")
     
     args=parser.parse_args()
     if args.list:
         for s in list_scrapers():
             print(s.site)
         sys.exit(0)
-    
     
     read_config(args)
     
