@@ -4,7 +4,11 @@
 .settings/
 *.log
 *.cnf
+*.spec
 test.py
 copy.bat
 test/
 __pycache__
+/build.xml
+/build/
+/get_lyric.spec
