@@ -8,7 +8,7 @@ import urllib
 from bs4 import element,Comment
 from requests import Session
 from robobrowser import RoboBrowser
-from get_lyric.common import is_all_ascii
+from get_lyric.common import is_all_ascii,remove_unwanted_chars
 
 def list_scrapers():
     scrapers = [
@@ -21,20 +21,33 @@ def list_scrapers():
             www_azlyrics_com
             ]
     return scrapers
+
+def get_scraper_from_name(name):
+    scrapers=list_scrapers()
+    for scraper in scrapers:
+        if scraper.site == name:
+            return scraper
+    return None
+
 '''
-site    specify the site to search,in regular expression
+param: sites: name of sites,splitted by ','
+return: array of scraper classes
 '''
-def choose_scrapers(site,artist,song):
-    scrapers = list_scrapers()
+def choose_scrapers(sites,artist,song):
+    if sites is not None:
+        scrapers=[]
+        for site in sites.split(','):
+            scraper = get_scraper_from_name(site)
+            if scraper:
+                scrapers.append(scraper)
+    else:
+        scrapers = list_scrapers()
     
     if not is_all_ascii(artist) or not is_all_ascii(song):
         scrapers = [s for s in scrapers if not s.ascii_only]
-        
-    if site is not None:
-        scrapers = [s for s in scrapers if re.search(site, s.site) is not None]
     
     if len(scrapers)==0:
-        print("no scrapers")
+        logging.warn("no scrapers")
     
     return scrapers
 
@@ -109,6 +122,58 @@ class scraper_base:
         self.get_text(tag, buf)
         text = buf.getvalue()
         return self.compare_str(p_text,text,exact)
+
+class www_azlyrics_com(scraper_base):
+    ascii_only = True
+    site = 'www.azlyrics.com'
+    
+    '''
+    return value:
+
+    True:success
+    Faluse:error
+    '''
+    def get_lyric(self):
+        #first,try song url directry
+        url = "http://www.azlyrics.com/lyrics/%s/%s.html" % (remove_unwanted_chars(self.artist),remove_unwanted_chars(self.song))
+        self.browser.open(url)
+        
+        if not self.browser.response.ok:
+            #query
+            query = {'q':"%s %s" % (self.artist,self.song)}
+            query = urllib.parse.urlencode(query)
+            url = "http://search.azlyrics.com/search.php?" + query
+            self.browser.open(url)
+            
+            #find song link
+            node = self.browser.find(lambda tag:self.test_link(tag,self.song))
+            if node is None:
+                logging.info(self.log_msg("song not found."))
+                return False
+            self.browser.follow_link(node)
+        
+        #find lyric
+        node = self.browser.find(text=re.compile("Usage"))
+        if node is None:
+            msg = "lyric not found."
+            #msg += "\n" + self.browser.response.text
+            logging.info(self.log_msg(msg))
+            return False
+        
+        node = node.parent  #div
+        
+        logging.info(self.log_msg("lyric *found*"))
+        buf = io.StringIO()
+        self.get_text(node,buf)
+        lyric = buf.getvalue()
+        """
+        if "Unfortunately we don't have the lyrics for the song" in lyric:
+            logging.info(self.log_msg("lyric not found."))
+            return False
+        """
+        self.lyric=lyric
+        
+        return True
     
 class www_lyrics_az(scraper_base):
     ascii_only = True       #handle artist/song which name contains only ascii letters
@@ -380,48 +445,3 @@ class genius_com(scraper_base):
         
         return True
 
-class www_azlyrics_com(scraper_base):
-    ascii_only = True
-    site = 'www.azlyrics.com'
-    
-    '''
-    return value:
-
-    True:success
-    Faluse:error
-    '''
-    def get_lyric(self):    
-        query = {'q':"%s %s" % (self.artist,self.song)}
-        query = urllib.parse.urlencode(query)
-        url = "http://search.azlyrics.com/search.php?" + query
-        self.browser.open(url)
-        
-        #find song link
-        node = self.browser.find(lambda tag:self.test_link(tag,self.song))
-        if node is None:
-            logging.info(self.log_msg("song not found."))
-            return False
-        self.browser.follow_link(node)
-        
-        #find lyric
-        node = self.browser.find(text=re.compile("Usage"))
-        if node is None:
-            msg = "lyric not found."
-            #msg += "\n" + self.browser.response.text
-            logging.info(self.log_msg(msg))
-            return False
-        
-        node = node.parent  #div
-        
-        logging.info(self.log_msg("lyric *found*"))
-        buf = io.StringIO()
-        self.get_text(node,buf)
-        lyric = buf.getvalue()
-        """
-        if "Unfortunately we don't have the lyrics for the song" in lyric:
-            logging.info(self.log_msg("lyric not found."))
-            return False
-        """
-        self.lyric=lyric
-        
-        return True

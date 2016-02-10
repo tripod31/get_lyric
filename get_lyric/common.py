@@ -9,7 +9,7 @@ import configparser
 '''
 read ini file and add value to args
 
-args    return object of parsearg()
+param:args: returned object from parsearg()
 '''
 def read_config(args):
     INI_FILE = 'get_lyric.cnf'
@@ -24,8 +24,7 @@ def read_config(args):
         d[k]=v
 
 '''
-arguments:
-tag    object createed by 'ID3(file)'
+param:tag: object createed by 'ID3(file)'
 '''
 def write2tag(tag,lyric):
     arr = parse_synced_lyric(lyric)
@@ -86,3 +85,12 @@ def parse_synced_lyric(s):
             arr.append((m.group(4),time))
     return arr
 
+'''
+remove unwanted chars from name of artist or song,to get url of a song in www.azlyrics.com
+'''
+def remove_unwanted_chars(s):
+    s=re.sub('\(.+\)','',s) #(...)
+    s=re.sub('\[.+\]','',s) #([...]
+    s=re.sub('[^A-Za-z20-9]','',s)
+
+    return s

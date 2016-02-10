@@ -7,7 +7,7 @@ For mp3 files in specified directory,Search lyric from the site,and put it to fi
 
 import argparse
 import logging
-import io,os
+import io,os,sys
 
 from mutagen.id3 import ID3
 
@@ -18,7 +18,7 @@ args = None
 
 def get_lyric(artist,song,buf):
     logging.info("get_lyric:artist[%s]:song[%s]"%(artist,song))
-    scrapers = choose_scrapers(args.site, artist, song)
+    scrapers = choose_scrapers(args.sites, artist, song)
     
     for scraper in scrapers:
         try:
@@ -41,7 +41,11 @@ def process_mp3(file):
         tag=ID3(file)
         artist = str(tag['TPE1'])
         song =  str(tag['TIT2'])
-        if len(tag.getall('SYLT'))>0 or len(tag.getall('USLT'))>0 or len(tag.getall('TXXX:LIRICS'))>0:
+        '''
+        'USLT':unsynced lyrics tag
+        'TXXX:LIRICS':synced lyrics tag
+        '''
+        if len(tag.getall('USLT'))>0 or len(tag.getall('TXXX:LIRICS'))>0:
             tag_exist = True
         else:
             tag_exist = False
@@ -59,15 +63,21 @@ def process_mp3(file):
         else:
             file_exist = False
     
-    if args.write2tag and not tag_exist:
-        write_tag = True
-    else:
-        write_tag = False
+    #determin if write2tag
+    write_tag=False
+    if args.write2tag:
+        if not tag_exist:
+            write_tag = True
+        elif args.overwrite:
+            write_tag = True
     
-    if args.out_dir is not None and not file_exist:
-        write_file = True
-    else:
-        write_file = False
+    #determin if write2file
+    write_file = False
+    if args.out_dir is not None:
+        if not file_exist:
+            write_file = True
+        elif args.overwrite:
+            write_file = True
     
     if not write_tag and not write_file:
         return
@@ -100,14 +110,26 @@ def write2file(path,lyric):
     
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--in_dir',     help="specify the directory where mp3 files are")
-    parser.add_argument('--out_dir',    help="specify the directory where the script put lyric to file")
-    parser.add_argument('--write2tag',  action='store_true',   help="When specified,the script puts lyric to tag of mp3")
-    parser.add_argument('--overwrite',  action='store_true',   help="When specified,the script overwrites existing file or tag.")
-    parser.add_argument('--site',       help="specify the site to search,in regular expression")
-    parser.add_argument('--proxy',      help="[site name in regular expression],[proxy url:port]")
+    parser.add_argument('--in_dir',
+                        default=".",
+                        help="specify the directory where mp3 files are.default is current directory.")
+    parser.add_argument('--out_dir',
+                        help="specify the directory where the script put lyric to file")
+    parser.add_argument('--write2tag',  action='store_true',
+                        help="When specified,the script puts lyric to tag of mp3")
+    parser.add_argument('--overwrite',  action='store_true',
+                        help="When specified,the script overwrites existing file or tag.")
+    parser.add_argument('--sites',
+                        help="name of sites to search,splitted by ','.site names are displayed py 'get_lyric.py --list'")
+    parser.add_argument('--proxy',
+                        help="[site name in regular expression],[proxy url:port]")
         
     args=parser.parse_args()
+    
+    if args.out_dir is None and args.write2tag == False:
+        print("Please specify argument one of ['out_dir','write2tag']") 
+        sys.exit(0)
+        
     read_config(args)
     
     logging.basicConfig(level=logging.INFO,
