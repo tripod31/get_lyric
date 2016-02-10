@@ -29,11 +29,13 @@ def get_scraper_from_name(name):
             return scraper
     return None
 
-'''
-param: sites: name of sites,splitted by ','
-return: array of scraper classes
-'''
+
 def choose_scrapers(sites,artist,song):
+    """
+    :param sites: name of sites,splitted by ','
+    :returns: array of scraper classes
+    """
+
     if sites is not None:
         scrapers=[]
         for site in sites.split(','):
@@ -51,10 +53,11 @@ def choose_scrapers(sites,artist,song):
     
     return scrapers
 
-'''
-base class for scraping
-'''
+
 class scraper_base:
+    '''
+    base class for scraping
+    '''
     def __init__(self,artist,song,p_proxy):
         self.artist = self.remove_unwanted_chars(artist)
         self.song = self.remove_unwanted_chars(song)
@@ -80,11 +83,13 @@ class scraper_base:
         msg = "%s:site:[%s]" % (msg,self.site)
         return msg
             
-    '''
-    retreive texts under node of beautifulsoup
-    buf    StringIO:buffer to output text
-    '''
+
     def get_text(self,node,buf,remove_cr=True):
+        '''
+        retreive texts under node of beautifulsoup
+        
+        :param buf: StringIO buffer to output text
+        '''    
         if isinstance(node,Comment):
             return  #ignore comment
         if isinstance(node,element.Tag):
@@ -127,12 +132,6 @@ class www_azlyrics_com(scraper_base):
     ascii_only = True
     site = 'www.azlyrics.com'
     
-    '''
-    return value:
-
-    True:success
-    Faluse:error
-    '''
     def get_lyric(self):
         #first,try song url directry
         url = "http://www.azlyrics.com/lyrics/%s/%s.html" % (remove_unwanted_chars(self.artist),remove_unwanted_chars(self.song))
@@ -179,13 +178,11 @@ class www_lyrics_az(scraper_base):
     ascii_only = True       #handle artist/song which name contains only ascii letters
     site = 'www.lyrics.az'  #name used for list sites
    
-    '''
-    return value:
-
-    True:success
-    Faluse:error
-    '''
     def get_lyric(self):
+        '''
+        :return: True:success False:error
+        '''
+
         #search artist        
         query = {'keyword': self.artist}
         query = urllib.parse.urlencode(query)
@@ -233,18 +230,10 @@ class www_lyrics_az(scraper_base):
         
         return True
 
-
-
 class petitlyrics_com(scraper_base):
     ascii_only = False
     site = 'petitlyrics.com'
     
-    '''
-    return value:
-
-    True:success
-    Faluse:error
-    '''
     def get_lyric(self):
         self.browser.open('http://petitlyrics.com/search_lyrics')
         
@@ -280,12 +269,6 @@ class j_lyric_net(scraper_base):
     ascii_only = False
     site = 'j-lyric.net'
     
-    '''
-    return value:
-
-    True:success
-    Faluse:error
-    '''
     def get_lyric(self):
         query = {'ka': self.artist,'kt':self.song}
         query = urllib.parse.urlencode(query)
@@ -318,12 +301,6 @@ class www_lyricsfreak_com(scraper_base):
     ascii_only = True
     site = 'www.lyricsfreak.com'
     
-    '''
-    return value:
-
-    True:success
-    Faluse:error
-    '''
     def get_lyric(self):    
         query = {'q': self.artist}
         query = urllib.parse.urlencode(query)
@@ -366,12 +343,6 @@ class letssingit_com(scraper_base):
     ascii_only = True
     site = 'www.letssingit.com'
     
-    '''
-    return value:
-
-    True:success
-    Faluse:error
-    '''
     def get_lyric(self):    
         query = {'s':"%s - %s" % (self.artist,self.song)}
         query = urllib.parse.urlencode(query)
@@ -407,12 +378,6 @@ class genius_com(scraper_base):
     ascii_only = True
     site = 'genius.com'
     
-    '''
-    return value:
-
-    True:success
-    Faluse:error
-    '''
     def get_lyric(self):    
         query = {'q':"%s %s" % (self.artist,self.song)}
         query = urllib.parse.urlencode(query)

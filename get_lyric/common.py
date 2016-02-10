@@ -6,12 +6,14 @@ from mutagen.id3 import USLT,TXXX
 import logging
 import configparser
 
-'''
-read ini file and add value to args
 
-param:args: returned object from parsearg()
-'''
 def read_config(args):
+    '''
+    read ini file and add value to args
+
+    :param args: returned object from parsearg()
+    '''
+    
     INI_FILE = 'get_lyric.cnf'
     if not os.path.exists(INI_FILE):
         return
@@ -23,10 +25,11 @@ def read_config(args):
     for (k,v) in config.items('settings'):
         d[k]=v
 
-'''
-param:tag: object createed by 'ID3(file)'
-'''
+
 def write2tag(tag,lyric):
+    '''
+    :param tag: object createed by 'ID3(file)'
+    '''    
     arr = parse_synced_lyric(lyric)
     if len(arr)>0:
         #synced lyric
@@ -85,10 +88,10 @@ def parse_synced_lyric(s):
             arr.append((m.group(4),time))
     return arr
 
-'''
-remove unwanted chars from name of artist or song,to get url of a song in www.azlyrics.com
-'''
 def remove_unwanted_chars(s):
+    '''
+    remove unwanted chars from name of artist or song,to get url of a song in www.azlyrics.com
+    '''    
     s=re.sub('\(.+\)','',s) #(...)
     s=re.sub('\[.+\]','',s) #([...]
     s=re.sub('[^A-Za-z20-9]','',s)
