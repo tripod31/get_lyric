@@ -63,16 +63,21 @@ class scraper_base:
         self.song = self.remove_unwanted_chars(song)
         
         session = None
+        
+        #setting proxy
         if p_proxy is not None:
-            m= re.match('(.+),([\d\.\:]+)',p_proxy)
-            if m:
-                site = m.group(1)
-                proxy = m.group(2)
-                if re.search(site,self.site):
-                    logging.info(self.log_msg("use proxy"))
-                    session = Session()
-                    session.proxies = {'http': proxy,'https':proxy}
-                    
+            arr = p_proxy.split(',')
+            for ent in arr:
+                m= re.match('(.+)=([\d\.\:]+)',ent)
+                if m:
+                    site = m.group(1)
+                    proxy = m.group(2)
+                    if site==self.site:
+                        logging.info(self.log_msg("use proxy:"+proxy))
+                        session = Session()
+                        session.proxies = {'http': proxy,'https':proxy}
+                        break
+        
         self.browser = RoboBrowser(parser="html.parser",
                                    session=session,
                                    user_agent='Mozilla Firefox',

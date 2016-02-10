@@ -22,7 +22,7 @@ if __name__ == '__main__':
     parser.add_argument('--sites'      
                         ,help="name of sites to search,splitted by ','.site names are displayed py 'get_lyric.py --list'")
     parser.add_argument('--proxy'
-                        ,help="[site name in regular expression],[proxy url:port]")
+                        ,help="format is [site name=proxy url:port],splitted by ','")
     parser.add_argument('--list'        ,action='store_true'
                         ,help="print site names and exit")
     

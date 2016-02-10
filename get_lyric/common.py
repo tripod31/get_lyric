@@ -20,7 +20,8 @@ def read_config(args):
     config = configparser.ConfigParser()
     with open(INI_FILE,'r') as f:
         config.read_file(f)
-    f.close()
+        f.close()
+        
     d = vars(args)
     for (k,v) in config.items('settings'):
         d[k]=v

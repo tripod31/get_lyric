@@ -26,10 +26,11 @@ python get_lyric.py --artist "artist name" --song "song name"
      [--proxy PROXY]] [--sites SITES] [--list]
 ```
 + proxy  
-site name in regular expression and proxy url:port.When specified,the script use proxy to access to sites.   
+Format is [fsite name=proxy url:port],spllited by ','.
+When specified,the script use proxy to access to sites.   
 Example  
 ```
---proxy azlyrics,36.234.184.32:3128
+--proxy www.azlyrics.com=36.234.184.32:3128
 ```
 + sites  
 name of sites to search,splitted by ','.  
@@ -83,7 +84,7 @@ If there is this file in current directory,the script reads argument from it.
 Example:  
 ```
 [settings]
-proxy = azlyrics,36.234.184.32:3128
+proxy = www.azzlyrics.com=36.234.184.32:3128
 #comment (ignored)
 ```
 The first line "[settings]" is mandetary.
@@ -91,4 +92,7 @@ The first line "[settings]" is mandetary.
 changelog  
 -----
 #### 2016/02/10  
-change argument 'site' to 'sites'.It is not in regular expression.It can specify sites order.
+changed argument 'site' to 'sites'.It is not in regular expression.It can specify sites order.
+
+#### 2016/02/10  
+changed argument 'proxy' format.It is not in regular expression.
