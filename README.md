@@ -4,7 +4,7 @@ Command line tool to retrive lyric from sites.
 
 windows binary
 -----
-*.exe  
+\*.exe  
 python and required libraries are included in them.  
 
 development environment
@@ -26,7 +26,7 @@ python get_lyric.py --artist "artist name" --song "song name"
      [--proxy PROXY]] [--sites SITES] [--list]
 ```
 + proxy  
-Format is [fsite name=proxy url:port],spllited by ','.
+Format is [site name=proxy url:port],spllited by ','.
 When specified,the script use proxy to access to sites.   
 Example  
 ```
