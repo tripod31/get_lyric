@@ -6,10 +6,11 @@ windows binary
 -----
 dist/\*.exe  
 python and required libraries are included in them.  
+I used pyinstaller to make windows binaries from python sources.Latest version of pyinstaller(3.2.1) didn't work."3.1.1" worked. 
 
 development environment
 -----
-python3.5  
+python3.5.3
 
 required libraries
 -----
@@ -62,12 +63,10 @@ These file is useful for foo_uie_lyrics3(foobar2000 plugin to display lyric).The
 
 + write2tag  
 The script puts lyric to tag of mp3.
-If lyric contains text like  
-```
-[00:00.00]lyric text  
-```
-,lyric is saved to synced lyrics tag.Otherwise it is saved to unsynced lyrics tag.  
-
+If lyric contains text like below, ,lyric is saved to synced lyrics tag.Otherwise it is saved to unsynced lyrics tag.  
+     ```
+     [00:00.00]lyric text  
+     ```
 + overwrite  
 When specified,The script overwrites existing file or tag.  
 
@@ -99,4 +98,3 @@ changed argument 'proxy' format.It is not in regular expression.
 
 #### 2017/07/19  
 update sites.py,according to changes of sites.
-
