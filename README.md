@@ -6,10 +6,17 @@ windows binary
 -----
 dist/\*.exe  
 python and required libraries are included in them.  
-I used pyinstaller to make windows binaries from python sources.Latest version of pyinstaller(3.2.1) didn't work."3.1.1" worked. 
+I used pyinstaller to make windows binaries from python sources.I tried some combinations of pyinstaller version and python version.  
+
+| python        | pyinstaller   | executable is runnable |
+| ------------- |:-------------:| ----------------------:|
+| 3.5.3/64bit   | 3.2.1         | No                     |
+| 3.5.3/64bit   | 3.1.1         | No                     |
+| 3.5.3/32bit   | 3.1.1         | Yes                    |
 
 development environment
 -----
+Windows10  
 python3.5.3
 
 required libraries
