@@ -4,7 +4,7 @@ Command line tool to retrive lyric from sites.
 
 windows binary
 -----
-\*.exe  
+dist/\*.exe  
 python and required libraries are included in them.  
 
 development environment

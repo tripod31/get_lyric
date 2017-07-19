@@ -13,3 +13,6 @@ __pycache__
 /build/
 /get_lyric.spec
 /test.xml
+/build.gradle
+.gradle/
+.gitignore
