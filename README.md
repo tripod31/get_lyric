@@ -96,3 +96,7 @@ changed argument 'site' to 'sites'.It is not in regular expression.It can specif
 
 #### 2016/02/10  
 changed argument 'proxy' format.It is not in regular expression.
+
+#### 2017/07/19  
+update sites.py,according to changes of sites.
+

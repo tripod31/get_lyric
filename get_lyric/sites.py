@@ -12,11 +12,11 @@ from get_lyric.common import is_all_ascii,remove_unwanted_chars
 
 def list_scrapers():
     scrapers = [
-            www_lyrics_az,
+            lyrics_az,
             j_lyric_net,
             petitlyrics_com,
             www_lyricsfreak_com,
-            letssingit_com,
+            #letssingit_com,
             genius_com,
             www_azlyrics_com
             ]
@@ -179,9 +179,9 @@ class www_azlyrics_com(scraper_base):
         
         return True
     
-class www_lyrics_az(scraper_base):
+class lyrics_az(scraper_base):
     ascii_only = True       #handle artist/song which name contains only ascii letters
-    site = 'www.lyrics.az'  #name used for list sites
+    site = 'lyrics.az'  #name used for list sites
    
     def get_lyric(self):
         '''
@@ -191,7 +191,7 @@ class www_lyrics_az(scraper_base):
         #search artist        
         query = {'keyword': self.artist}
         query = urllib.parse.urlencode(query)
-        url = "https://www.lyrics.az/?new_a=mixedsearch2&" +query
+        url = "https://lyrics.az/?new_a=mixedsearch2&" +query
         self.browser.open(url)
         
         #click artist
@@ -216,7 +216,7 @@ class www_lyrics_az(scraper_base):
         self.browser.follow_link(node)
         
         #find lyric
-        node = self.browser.find('span',id="lyrics")
+        node = self.browser.find('p',id="lyrics")
         if node is None:
             logging.info(self.log_msg("lyric not found."))
             return False
@@ -288,7 +288,7 @@ class j_lyric_net(scraper_base):
         self.browser.follow_link(node)
         
         #find lyric
-        node = self.browser.find('p',id="lyricBody")
+        node = self.browser.find('p',id="Lyric")
         if node is None:
             logging.info(self.log_msg("lyric not found."))
             return False
@@ -344,6 +344,7 @@ class www_lyricsfreak_com(scraper_base):
         
         return True
 
+"""
 class letssingit_com(scraper_base):
     ascii_only = True
     site = 'www.letssingit.com'
@@ -351,7 +352,7 @@ class letssingit_com(scraper_base):
     def get_lyric(self):    
         query = {'s':"%s - %s" % (self.artist,self.song)}
         query = urllib.parse.urlencode(query)
-        url = "http://search.letssingit.com/cgi-exe/am.cgi?a=search&artist_id=&" + query
+        url = "https://search.letssingit.com/?%s&a=search&l=archive" % query
         self.browser.open(url)
         
         #find song link
@@ -378,6 +379,7 @@ class letssingit_com(scraper_base):
         self.lyric=lyric
         
         return True
+"""
 
 class genius_com(scraper_base):
     ascii_only = True
@@ -397,7 +399,7 @@ class genius_com(scraper_base):
         self.browser.follow_link(node)
         
         #find lyric
-        node = self.browser.find('lyrics',attrs={'class':"lyrics"})
+        node = self.browser.find('div',attrs={'class':"lyrics"})
         if node is None:
             logging.info(self.log_msg("lyric not found."))
             return False
