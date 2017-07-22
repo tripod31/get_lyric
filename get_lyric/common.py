@@ -2,7 +2,7 @@
 
 import re
 import os
-from mutagen.id3 import USLT,TXXX
+from mutagen.id3 import USLT,TXXX  # @UnresolvedImport
 import logging
 import configparser
 
