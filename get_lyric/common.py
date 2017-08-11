@@ -29,8 +29,9 @@ def read_config(args):
 
 def write2tag(tag,lyric):
     '''
-    :param tag: object createed by 'ID3(file)'
-    '''    
+    :param tag: object created by 'ID3(file)'
+    '''
+    '''
     arr = parse_synced_lyric(lyric)
     if len(arr)>0:
         #synced lyric
@@ -55,10 +56,11 @@ def write2tag(tag,lyric):
             )
         )        
     else:
-        #unsynced lyric
-        if len(tag.getall('USLT'))>0:
-            tag.delall('USLT')        
-        tag.add(USLT(encoding=3, lang='eng', desc='desc', text=lyric))
+    '''
+    #save tag to unsynced lyric
+    if len(tag.getall('USLT'))>0:
+        tag.delall('USLT')        
+    tag.add(USLT(encoding=3, lang='eng', desc='desc', text=lyric))
     try:
         tag.save()
     except Exception as e:
