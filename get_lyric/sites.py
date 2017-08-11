@@ -17,7 +17,7 @@ def list_scrapers():
             petitlyrics_com,
             www_lyricsfreak_com,
             #letssingit_com,
-            genius_com,
+            #genius_com,
             www_azlyrics_com
             ]
     return scrapers
@@ -380,7 +380,7 @@ class letssingit_com(scraper_base):
         
         return True
 """
-
+"""
 class genius_com(scraper_base):
     ascii_only = True
     site = 'genius.com'
@@ -408,12 +408,10 @@ class genius_com(scraper_base):
         buf = io.StringIO()
         self.get_text(node,buf)
         lyric = buf.getvalue()
-        """
-        if "Unfortunately we don't have the lyrics for the song" in lyric:
-            logging.info(self.log_msg("lyric not found."))
-            return False
-        """
+        #if "Unfortunately we don't have the lyrics for the song" in lyric:
+        #    logging.info(self.log_msg("lyric not found."))
+        #    return False
         self.lyric=lyric
         
         return True
-
+"""

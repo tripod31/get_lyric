@@ -81,12 +81,14 @@ def find_all_files(directory):
 def parse_synced_lyric(s):
     lines=s.split('\n')
     arr = []
+    re1=re.compile('\[(\d{2})\:(\d{2})\.(\d{2})\]([^\[\]]+)')
     for line in lines:
-        m= re.match('\[(\d{2})\:(\d{2})\.(\d{2})\]([^\[\]]+)',line)
-        if m:
+        m=re1.search(line)
+        while m is not None:
             min,sec,millsec = (m.group(1),m.group(2),m.group(3))
             time = int(min)*60*100 + int(sec)*100 + int(millsec) #in mill second
             arr.append((m.group(4),time))
+            m=re1.search(line)
     return arr
 
 def remove_unwanted_chars(s):
