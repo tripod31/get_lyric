@@ -31,7 +31,7 @@ def write2tag(tag,lyric):
     '''
     :param tag: object created by 'ID3(file)'
     '''
-    '''
+    
     arr = parse_synced_lyric(lyric)
     if len(arr)>0:
         #synced lyric
@@ -55,12 +55,11 @@ def write2tag(tag,lyric):
                 text=[lyric]
             )
         )        
-    else:
-    '''
-    #save tag to unsynced lyric
-    if len(tag.getall('USLT'))>0:
-        tag.delall('USLT')        
-    tag.add(USLT(encoding=3, lang='eng', desc='desc', text=lyric))
+    else:    
+        #save tag to unsynced lyric
+        if len(tag.getall('USLT'))>0:
+            tag.delall('USLT')        
+        tag.add(USLT(encoding=3, lang='eng', desc='desc', text=lyric))
     try:
         tag.save()
     except Exception as e:
@@ -83,7 +82,7 @@ def find_all_files(directory):
 def parse_synced_lyric(s):
     lines=s.split('\n')
     arr = []
-    re1=re.compile('\[(\d{2})\:(\d{2})\.(\d{2})\]([^\[\]]+)')
+    re1=re.compile('\[(\d{2})\:(\d{2})\.(\d{2})\]([^\[\]]*)')
     for line in lines:
         m=re1.search(line)
         while m is not None:
