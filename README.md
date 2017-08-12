@@ -11,7 +11,7 @@ I used pyinstaller to make windows binaries from python sources.I tried some com
 | python        | pyinstaller   | executable is runnable |
 | ------------- |:-------------:| ----------------------:|
 | 3.5.3/64bit   | 3.2.1         | No                     |
-| 3.5.3/64bit   | 3.1.1         | No                     |
+| 3.5.3/64bit   | 3.1.1         | Yes                    |
 | 3.5.3/32bit   | 3.1.1         | Yes                    |
 
 development environment
